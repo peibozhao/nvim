@@ -1,0 +1,61 @@
+[submodule "coc.nvim"]
+	path = start/coc.nvim
+	url = https://github.com/neoclide/coc.nvim
+	branch = release
+[submodule "a.vim"]
+	path = start/a.vim
+	url = https://github.com/vim-scripts/a.vim
+[submodule "vim-ingo-library"]
+	path = start/vim-ingo-library
+	url = https://github.com/inkarkat/vim-ingo-library
+[submodule "vim-mark"]
+	path = start/vim-mark
+	url = https://github.com/inkarkat/vim-mark
+[submodule "LeaderF"]
+	path = start/LeaderF
+	url = https://github.com/Yggdroot/LeaderF
+[submodule "DoxygenToolkit.vim"]
+	path = start/DoxygenToolkit.vim
+	url = https://github.com/vim-scripts/DoxygenToolkit.vim
+[submodule "nerdcommenter"]
+	path = start/nerdcommenter
+	url = https://github.com/scrooloose/nerdcommenter
+[submodule "vim-airline"]
+	path = start/vim-airline
+	url = https://github.com/vim-airline/vim-airline
+[submodule "tagbar"]
+	path = start/tagbar
+	url = https://github.com/majutsushi/tagbar
+[submodule "vim-maktaba"]
+	path = start/vim-maktaba
+	url = https://github.com/google/vim-maktaba
+[submodule "vim-codefmt"]
+	path = start/vim-codefmt
+	url = https://github.com/google/vim-codefmt
+[submodule "vim-glaive"]
+	path = start/vim-glaive
+	url = https://github.com/google/vim-glaive
+[submodule "ack.vim"]
+	path = start/ack.vim
+	url = https://github.com/mileszs/ack.vim
+[submodule "ultisnips"]
+	path = start/ultisnips
+	url = https://github.com/SirVer/ultisnips
+[submodule "vim-snippets"]
+	path = start/vim-snippets
+	url = https://github.com/honza/vim-snippets
+[submodule "vim-gitgutter"]
+	path = start/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter
+[submodule "vim-fugitive"]
+	path = start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
+[submodule "indentLine"]
+	path = start/indentLine
+	url = https://github.com/Yggdroot/indentLine
+[submodule "defx.nvim"]
+	path = start/defx.nvim
+	url = https://github.com/Shougo/defx.nvim
+[submodule "markdown-preview.nvim"]
+	path = start/markdown-preview.nvim
+	url = https://github.com/iamcco/markdown-preview.nvim
