@@ -1,61 +1,64 @@
 [submodule "coc.nvim"]
-	path = start/coc.nvim
+	path = pack/package/start/coc.nvim
 	url = https://github.com/neoclide/coc.nvim
 	branch = release
 [submodule "a.vim"]
-	path = start/a.vim
+	path = pack/package/start/a.vim
 	url = https://github.com/vim-scripts/a.vim
 [submodule "vim-ingo-library"]
-	path = start/vim-ingo-library
+	path = pack/package/start/vim-ingo-library
 	url = https://github.com/inkarkat/vim-ingo-library
 [submodule "vim-mark"]
-	path = start/vim-mark
+	path = pack/package/start/vim-mark
 	url = https://github.com/inkarkat/vim-mark
 [submodule "LeaderF"]
-	path = start/LeaderF
+	path = pack/package/start/LeaderF
 	url = https://github.com/Yggdroot/LeaderF
 [submodule "DoxygenToolkit.vim"]
-	path = start/DoxygenToolkit.vim
+	path = pack/package/start/DoxygenToolkit.vim
 	url = https://github.com/vim-scripts/DoxygenToolkit.vim
 [submodule "nerdcommenter"]
-	path = start/nerdcommenter
+	path = pack/package/start/nerdcommenter
 	url = https://github.com/scrooloose/nerdcommenter
 [submodule "vim-airline"]
-	path = start/vim-airline
+	path = pack/package/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline
 [submodule "tagbar"]
-	path = start/tagbar
+	path = pack/package/start/tagbar
 	url = https://github.com/majutsushi/tagbar
 [submodule "vim-maktaba"]
-	path = start/vim-maktaba
+	path = pack/package/start/vim-maktaba
 	url = https://github.com/google/vim-maktaba
 [submodule "vim-codefmt"]
-	path = start/vim-codefmt
+	path = pack/package/start/vim-codefmt
 	url = https://github.com/google/vim-codefmt
 [submodule "vim-glaive"]
-	path = start/vim-glaive
+	path = pack/package/start/vim-glaive
 	url = https://github.com/google/vim-glaive
 [submodule "ack.vim"]
-	path = start/ack.vim
+	path = pack/package/start/ack.vim
 	url = https://github.com/mileszs/ack.vim
 [submodule "ultisnips"]
-	path = start/ultisnips
+	path = pack/package/start/ultisnips
 	url = https://github.com/SirVer/ultisnips
 [submodule "vim-snippets"]
-	path = start/vim-snippets
+	path = pack/package/start/vim-snippets
 	url = https://github.com/honza/vim-snippets
 [submodule "vim-gitgutter"]
-	path = start/vim-gitgutter
+	path = pack/package/start/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
 [submodule "vim-fugitive"]
-	path = start/vim-fugitive
+	path = pack/package/start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive
 [submodule "indentLine"]
-	path = start/indentLine
+	path = pack/package/start/indentLine
 	url = https://github.com/Yggdroot/indentLine
 [submodule "defx.nvim"]
-	path = start/defx.nvim
+	path = pack/package/start/defx.nvim
 	url = https://github.com/Shougo/defx.nvim
 [submodule "markdown-preview.nvim"]
-	path = start/markdown-preview.nvim
+	path = pack/package/start/markdown-preview.nvim
 	url = https://github.com/iamcco/markdown-preview.nvim
+[submodule "copilot.vim"]
+	path = pack/package/start/copilot.vim
+	url = https://github.com/github/copilot.vim
