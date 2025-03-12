@@ -5,5 +5,11 @@
   "tree.key.toggle": "<space>",
   "tree.key.collapseAll": "c",
   "tree.key.invoke": "o",
-  "suggest.noselect": false
+  "suggest.noselect": false,
+  "languageserver": {
+    "lua": {
+      "command": "lua-lsp",
+      "filetypes": ["lua"]
+    }
+  }
 }
