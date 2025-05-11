@@ -102,5 +102,24 @@ cmap <C-T> sp term://bash<CR>
 -- Terminal 模式下 Esc 切换回普通模式
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true })
 
+-- 为 .hcc 文件设置 filetype 为 cpp
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*.hcc",
+  callback = function()
+    vim.bo.filetype = "cpp"
+  end,
+})
+
+-- 自动跳转到上次编辑位置
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = "*",
+  callback = function()
+    local line = vim.fn.line
+    if line([['"]]) > 1 and line([['"]]) <= line("$") then
+      vim.cmd('normal! g\'"')
+    end
+  end,
+})
+
 
 vim.cmd('source ' .. vim.fn.stdpath('config') .. '/init.vim')

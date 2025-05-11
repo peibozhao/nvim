@@ -56,14 +56,14 @@
 " nnoremap <silent> <leader>dn  :Over<cr>
 " nnoremap <silent> <leader>db  :Break<cr>
 
-" filetype plugin indent on
-" autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
-au BufRead,BufNewFile *.hcc set filetype=cpp
-" 自动跳转到上次退出的位置
-au BufReadPost * if line("'\"")>1 && line("'\"")<=line("$") | exe "normal! g'\"" | endif
-" let g:python3_host_prog='/usr/local/miniconda3/bin/python'
-" 会使对应的行不能对齐
-" au VimEnter * if &diff | execute 'windo set wrap' | endif
+" " filetype plugin indent on
+" " autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
+" au BufRead,BufNewFile *.hcc set filetype=cpp
+" " 自动跳转到上次退出的位置
+" au BufReadPost * if line("'\"")>1 && line("'\"")<=line("$") | exe "normal! g'\"" | endif
+" " let g:python3_host_prog='/usr/local/miniconda3/bin/python'
+" " 会使对应的行不能对齐
+" " au VimEnter * if &diff | execute 'windo set wrap' | endif
 
 
 " ***************PLUGIN vim-snippet
