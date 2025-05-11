@@ -1,52 +1,52 @@
 " $HOME/.config/nvim/init.vim
 
 " ***********vim config
-syntax on
-set number relativenumber
-set smartindent cindent
-set cinoptions=g0h2  " no use google style
-set formatoptions=ql
-set tabstop=2  " tab
-set shiftwidth=2
-set softtabstop=2
-set expandtab  " convert tab to space
-au FileType make set noexpandtab  " make cannot change tag to space
-set backspace=indent,eol,start
-set encoding=utf-8
-set fileencodings=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
-set nocompatible  " vi
-set autowrite " auto save
-set cursorline  " UI
+" syntax on
+" set number relativenumber
+" set smartindent cindent
+" set cinoptions=g0h2  " no use google style
+" set formatoptions=ql
+" set tabstop=2  " tab
+" set shiftwidth=2
+" set softtabstop=2
+" set expandtab  " convert tab to space
+" au FileType make set noexpandtab  " make cannot change tag to space
+" set backspace=indent,eol,start
+" set encoding=utf-8
+" set fileencodings=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
+" set nocompatible  " vi
+" set autowrite " auto save
+" set cursorline  " UI
 " set nohlsearch
-set fillchars=vert:│
-" set splitbelow    " preview window in bottom
-" set completeopt=menu,preview
-autocmd BufEnter * if index(['cpp', 'c'], &filetype) != -1 | set colorcolumn=80 | else | set colorcolumn= | endif
-autocmd FileType defx set nonumber norelativenumber
-set diffopt+=,vertical  " diff is vertical
+" set fillchars=vert:│
+" " set splitbelow    " preview window in bottom
+" " set completeopt=menu,preview
+" autocmd BufEnter * if index(['cpp', 'c'], &filetype) != -1 | set colorcolumn=80 | else | set colorcolumn= | endif
+" autocmd FileType defx set nonumber norelativenumber
+" set diffopt+=,vertical  " diff is vertical
 
-" comment MatchParen
-colorscheme darkblue
-" split line style
-hi VertSplit cterm=NONE ctermfg=Green ctermbg=NONE
-hi colorcolumn cterm=NONE ctermfg=NONE ctermbg=DarkGray
-" empty characters in end
-hi ExtraWhitespace ctermbg=red guibg=red
-hi DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-hi DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-hi DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-hi DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
-hi RedundantSpaces ctermbg=red guibg=red
-match RedundantSpaces /\s\+$\| \+\ze\t\|\t/
+" " comment MatchParen
+" colorscheme darkblue
+" " split line style
+" hi VertSplit cterm=NONE ctermfg=Green ctermbg=NONE
+" hi colorcolumn cterm=NONE ctermfg=NONE ctermbg=DarkGray
+" " empty characters in end
+" hi ExtraWhitespace ctermbg=red guibg=red
+" hi DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+" hi DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+" hi DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+" hi DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
+" hi RedundantSpaces ctermbg=red guibg=red
+" match RedundantSpaces /\s\+$\| \+\ze\t\|\t/
 
-cmap <C-A> <Home>
-cmap <C-F> <Right>
-cmap <C-B> <Left>
-" Up/Down can match the prefix
-cmap <C-P> <Up>
-cmap <C-N> <Down>
-cmap <C-T> sp term://bash<CR>
-tmap <Esc> <C-\><C-n> " 使esc在 terminal中也有相同的表现
+" cmap <C-A> <Home>
+" cmap <C-F> <Right>
+" cmap <C-B> <Left>
+" " Up/Down can match the prefix
+" cmap <C-P> <Up>
+" cmap <C-N> <Down>
+" cmap <C-T> sp term://bash<CR>
+" tmap <Esc> <C-\><C-n> " 使esc在 terminal中也有相同的表现
 
 " GDB debug
 " packadd termdebug
