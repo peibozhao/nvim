@@ -1,57 +1,49 @@
-vim.cmd('syntax on')
-
+vim.opt.syntax = 'on'
 vim.opt.number = true
 vim.opt.relativenumber = true
-
 vim.opt.smartindent = true
 vim.opt.cindent = true
-vim.opt.cinoptions = "g0h2"  -- no use google style
-vim.opt.formatoptions = "ql"
-vim.opt.tabstop = 2          -- tab宽度
+vim.opt.cinoptions = 'g0h2'  -- no use google style
+vim.opt.formatoptions = 'ql'
+vim.opt.tabstop = 2  -- tab宽度
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
-vim.opt.expandtab = true     -- tab转空格
+vim.opt.expandtab = true  -- tab转空格
+vim.opt.backspace = { 'indent', 'eol', 'start' }
+vim.opt.encoding = 'utf-8'
+vim.opt.fileencodings = { 'utf-8', 'ucs-bom', 'shift-jis', 'gb18030', 'gbk', 'gb2312', 'cp936' }
+vim.opt.compatible = false  -- 关闭兼容模式
+vim.opt.autowrite = true
+vim.opt.cursorline = true
+vim.opt.fillchars = { vert = '│' }
+vim.opt.diffopt:append('vertical')
+
+vim.cmd('colorscheme darkblue')
 
 -- makefile保留tab
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "make",
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'make',
   callback = function()
     vim.opt_local.expandtab = false
   end,
 })
 
-vim.opt.backspace = { "indent", "eol", "start" }
-
-vim.opt.encoding = "utf-8"
-vim.opt.fileencodings = { "utf-8", "ucs-bom", "shift-jis", "gb18030", "gbk", "gb2312", "cp936" }
-
--- 关闭兼容模式
-vim.opt.compatible = false
-
-vim.opt.autowrite = true
-
-vim.opt.cursorline = true
-
-vim.opt.fillchars = { vert = "│" }
-
-vim.opt.diffopt:append("vertical")
-
 -- 自动设置 colorcolumn 仅用于 cpp 和 c
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = "*",
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = '*',
   callback = function()
     local ft = vim.bo.filetype
-    if ft == "cpp" or ft == "c" then
-      vim.opt.colorcolumn = "80"
+    if ft == 'cpp' or ft == 'c' then
+      vim.opt.colorcolumn = '80'
     else
-      vim.opt.colorcolumn = ""
+      vim.opt.colorcolumn = ''
     end
   end,
 })
 
 -- defx 不显示行号
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "defx",
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'defx',
   callback = function()
     vim.wo.number = false
     vim.wo.relativenumber = false
@@ -59,63 +51,63 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- 禁用 MatchParen 高亮（等价于“comment MatchParen”）
-vim.cmd("hi clear MatchParen")
-
--- 配色方案
-vim.cmd("colorscheme darkblue")
+-- vim.cmd('hi clear MatchParen')
+vim.api.nvim_set_hl(0, 'MatchParen', {})
 
 -- 分割线样式
-vim.cmd("hi VertSplit cterm=NONE ctermfg=Green ctermbg=NONE")
-vim.cmd("hi ColorColumn cterm=NONE ctermfg=NONE ctermbg=DarkGray")
+-- vim.cmd('hi VertSplit cterm=NONE ctermfg=Green ctermbg=NONE')
+-- vim.cmd('hi ColorColumn cterm=NONE ctermfg=NONE ctermbg=DarkGray')
+vim.api.nvim_set_hl(0, 'VertSplit', { cterm=nil, fg=Green, bg=nil })
+vim.api.nvim_set_hl(0, 'ColorColumn', { cterm=nil, fg=nil, bg='DarkGray' })
 
 -- 高亮行尾空白等
-vim.cmd("hi ExtraWhitespace ctermbg=red guibg=red")
-vim.cmd("hi DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red")
-vim.cmd("hi DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red")
-vim.cmd("hi DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red")
-vim.cmd("hi DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red")
-vim.cmd("hi RedundantSpaces ctermbg=red guibg=red")
+vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg='red' })
+vim.api.nvim_set_hl(0, 'DiffAdd', { cterm={ bold=true }, fg=10, bg=17 })
+vim.api.nvim_set_hl(0, 'DiffDelete', { cterm={ bold=true }, fg=10, bg=17 })
+vim.api.nvim_set_hl(0, 'DiffChange', { cterm={ bold=true }, fg=10, bg=17 })
+vim.api.nvim_set_hl(0, 'DiffText', { cterm={ bold=true }, fg=10, bg=88 })
+vim.api.nvim_set_hl(0, 'RedundantSpaces', { bg='red' })
 
 -- 匹配多余空格
 vim.cmd([[match RedundantSpaces /\s\+$\| \+\ze\t\|\t/]])
 
 -- 命令行模式映射
-vim.cmd([[
-cmap <C-A> <Home>
-cmap <C-F> <Right>
-cmap <C-B> <Left>
-cmap <C-P> <Up>
-cmap <C-N> <Down>
-cmap <C-T> sp term://bash<CR>
-]])
+vim.api.nvim_set_keymap('c', '<C-A>', '<Home>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('c', '<C-F>', '<Right>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('c', '<C-B>', '<Left>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('c', '<C-P>', '<Up>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('c', '<C-N>', '<Down>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('c', '<C-T>', 'sp term://bash<CR>', { noremap = true, silent = true })
 
--- Terminal 模式下 Esc 切换回普通模式
-vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true })
+
+-- terminal 模式下 Esc 切换回普通模式
+vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
 
 -- 为 .hcc 文件设置 filetype 为 cpp
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = "*.hcc",
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = '*.hcc',
   callback = function()
-    vim.bo.filetype = "cpp"
+    vim.bo.filetype = 'cpp'
   end,
 })
 
 -- 自动跳转到上次编辑位置
-vim.api.nvim_create_autocmd("BufReadPost", {
-  pattern = "*",
+vim.api.nvim_create_autocmd('BufReadPost', {
   callback = function()
-    local line = vim.fn.line
-    if line([['"]]) > 1 and line([['"]]) <= line("$") then
-      vim.cmd('normal! g\'"')
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local line = mark[1]
+    if line > 0 and line <= vim.api.nvim_buf_line_count(0) then
+      vim.api.nvim_win_set_cursor(0, mark)
     end
   end,
 })
 
+
 -- PLUGIN vim-snippet
-vim.g.UltiSnipsExpandTrigger = "<C-f>"
-vim.g.UltiSnipsListSnippets = "<C-x>"
-vim.g.UltiSnipsJumpForwardTrigger = "<C-f>"
-vim.g.UltiSnipsJumpBackwardTrigger = "<C-b>"
+vim.g.UltiSnipsExpandTrigger = '<C-f>'
+vim.g.UltiSnipsListSnippets = '<C-x>'
+vim.g.UltiSnipsJumpForwardTrigger = '<C-f>'
+vim.g.UltiSnipsJumpBackwardTrigger = '<C-b>'
 
 
 -- PLUGIN a.vim
@@ -152,15 +144,15 @@ vim.keymap.set('n', '<C-p>', ':LeaderfFile<CR>', { noremap = true, silent = true
 
 -- PLUGIN Ack
 vim.g.ack_mappings = {
-  t  = "<C-W><CR><C-W>T",
-  T  = "<C-W><CR><C-W>TgT<C-W>j",
-  o  = "<CR>:ccl<CR>",
-  O  = "<CR>",
-  go = "<CR><C-W>j",
-  h  = "<C-W><CR><C-W>K",
-  H  = "<C-W><CR><C-W>K<C-W>b",
-  v  = "<C-W><CR><C-W>H<C-W>b<C-W>J<C-W>t",
-  gv = "<C-W><CR><C-W>H<C-W>b<C-W>J"
+  t  = '<C-W><CR><C-W>T',
+  T  = '<C-W><CR><C-W>TgT<C-W>j',
+  o  = '<CR>:ccl<CR>',
+  O  = '<CR>',
+  go = '<CR><C-W>j',
+  h  = '<C-W><CR><C-W>K',
+  H  = '<C-W><CR><C-W>K<C-W>b',
+  v  = '<C-W><CR><C-W>H<C-W>b<C-W>J<C-W>t',
+  gv = '<C-W><CR><C-W>H<C-W>b<C-W>J'
 }
 
 
@@ -194,8 +186,8 @@ vim.opt.backup = false
 vim.opt.writebackup = false
 vim.opt.cmdheight = 2
 vim.opt.updatetime = 300
-vim.opt.shortmess:append("c")
-vim.opt.signcolumn = "yes"
+vim.opt.shortmess:append('c')
+vim.opt.signcolumn = 'yes'
 
 local function check_back_space()
   local col = vim.fn.col('.') - 1
@@ -208,87 +200,81 @@ end
 
 local function show_documentation()
   local filetype = vim.bo.filetype
-  if filetype == "vim" or filetype == "help" then
-    vim.cmd("help " .. vim.fn.expand("<cword>"))
+  if filetype == 'vim' or filetype == 'help' then
+    vim.cmd('help ' .. vim.fn.expand('<cword>'))
   else
-    vim.fn.CocAction("doHover")
+    vim.fn.CocAction('doHover')
   end
 end
 
-vim.keymap.set("i", "<Tab>", function()
+vim.keymap.set('i', '<Tab>', function()
   if vim.fn.pumvisible() == 1 then
-    return vim.api.nvim_replace_termcodes("<C-n>", true, true, true)
+    return vim.api.nvim_replace_termcodes('<C-n>', true, true, true)
   elseif check_back_space() then
-    return vim.api.nvim_replace_termcodes("<Tab>", true, true, true)
+    return vim.api.nvim_replace_termcodes('<Tab>', true, true, true)
   else
-    return vim.fn["coc#refresh"]()
+    return vim.fn['coc#refresh']()
   end
 end, { expr = true, silent = true })
 
 
-vim.keymap.set("i", "<S-TAB>", [[pumvisible() ? "\<C-p>" : "\<C-h>"]], { expr = true })
-vim.keymap.set("i", "<C-Space>", "coc#refresh()", { expr = true, silent = true })
-vim.keymap.set("i", "<CR>", [[pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"]], { expr = true })
+vim.keymap.set('i', '<S-TAB>', [[pumvisible() ? '\<C-p>' : '\<C-h>']], { expr = true })
+vim.keymap.set('i', '<C-Space>', 'coc#refresh()', { expr = true, silent = true })
+vim.keymap.set('i', '<CR>', [[pumvisible() ? '\<C-y>' : '\<C-g>u\<CR>']], { expr = true })
 
-vim.keymap.set("n", "[c", "<Plug>(coc-diagnostic-prev)", { silent = true })
-vim.keymap.set("n", "]c", "<Plug>(coc-diagnostic-next)", { silent = true })
+vim.keymap.set('n', '[c', '<Plug>(coc-diagnostic-prev)', { silent = true })
+vim.keymap.set('n', ']c', '<Plug>(coc-diagnostic-next)', { silent = true })
 
-vim.keymap.set("n", "<leader>gd", "<Plug>(coc-definition)", { silent = true })
-vim.keymap.set("n", "<leader>gt", "<Plug>(coc-type-definition)", { silent = true })
-vim.keymap.set("n", "<leader>gi", "<Plug>(coc-implementation)", { silent = true })
-vim.keymap.set("n", "<leader>gr", "<Plug>(coc-references)", { silent = true })
-vim.keymap.set("n", "<leader>to", ":CocOutline<CR>", { silent = true })
+vim.keymap.set('n', '<leader>gd', '<Plug>(coc-definition)', { silent = true })
+vim.keymap.set('n', '<leader>gt', '<Plug>(coc-type-definition)', { silent = true })
+vim.keymap.set('n', '<leader>gi', '<Plug>(coc-implementation)', { silent = true })
+vim.keymap.set('n', '<leader>gr', '<Plug>(coc-references)', { silent = true })
+vim.keymap.set('n', '<leader>to', ':CocOutline<CR>', { silent = true })
 
-vim.keymap.set("n", "<leader>rn", "<Plug>(coc-rename)", { silent = true })
-vim.keymap.set("n", "K", show_documentation, { silent = true })
+vim.keymap.set('n', '<leader>rn', '<Plug>(coc-rename)', { silent = true })
+vim.keymap.set('n', 'K', show_documentation, { silent = true })
 
-vim.keymap.set("x", "<leader>f", "<Plug>(coc-format-selected)")
-vim.keymap.set("n", "<leader>f", "<Plug>(coc-format-selected)")
+vim.keymap.set('x', '<leader>f', '<Plug>(coc-format-selected)')
+vim.keymap.set('n', '<leader>f', '<Plug>(coc-format-selected)')
 
-vim.keymap.set("x", "<leader>a", "<Plug>(coc-codeaction-selected)")
-vim.keymap.set("n", "<leader>a", "<Plug>(coc-codeaction-selected)")
+vim.keymap.set('x', '<leader>a', '<Plug>(coc-codeaction-selected)')
+vim.keymap.set('n', '<leader>a', '<Plug>(coc-codeaction-selected)')
 
-vim.keymap.set("n", "<leader>ac", "<Plug>(coc-codeaction)")
-vim.keymap.set("n", "<leader>qf", "<Plug>(coc-fix-current)")
+vim.keymap.set('n', '<leader>ac', '<Plug>(coc-codeaction)')
+vim.keymap.set('n', '<leader>qf', '<Plug>(coc-fix-current)')
 
-vim.keymap.set("x", "if", "<Plug>(coc-funcobj-i)")
-vim.keymap.set("x", "af", "<Plug>(coc-funcobj-a)")
-vim.keymap.set("o", "if", "<Plug>(coc-funcobj-i)")
-vim.keymap.set("o", "af", "<Plug>(coc-funcobj-a)")
-
-vim.cmd([[
-command! -nargs=0 Format :call CocAction('format')
-command! -nargs=? Fold :call CocAction('fold', <f-args>)
-command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
-]])
+vim.keymap.set('x', 'if', '<Plug>(coc-funcobj-i)')
+vim.keymap.set('x', 'af', '<Plug>(coc-funcobj-a)')
+vim.keymap.set('o', 'if', '<Plug>(coc-funcobj-i)')
+vim.keymap.set('o', 'af', '<Plug>(coc-funcobj-a)')
 
 vim.cmd([[
-augroup mygroup
-  autocmd!
-  autocmd CursorHold * silent call CocActionAsync('highlight')
-  autocmd FileType typescript,json setlocal formatexpr=CocAction('formatSelected')
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup END
-]])
+ augroup mygroup
+   autocmd!
+   autocmd CursorHold * silent call CocActionAsync('highlight')
+   autocmd FileType typescript,json setlocal formatexpr=CocAction('formatSelected')
+   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+ augroup END
+ ]])
 
 
 if vim.fn.has('nvim-0.4.0') == 1 or vim.fn.has('patch-8.2.0750') == 1 then
-  vim.keymap.set("n", "<C-d>", [[coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"]], { expr = true, silent = true, nowait = true })
-  vim.keymap.set("n", "<C-u>", [[coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"]], { expr = true, silent = true, nowait = true })
-  vim.keymap.set("i", "<C-d>", [[coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<CR>" : "\<Right>"]], { expr = true, silent = true, nowait = true })
-  vim.keymap.set("i", "<C-u>", [[coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<CR>" : "\<Left>"]], { expr = true, silent = true, nowait = true })
-  vim.keymap.set("v", "<C-d>", [[coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"]], { expr = true, silent = true, nowait = true })
-  vim.keymap.set("v", "<C-u>", [[coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"]], { expr = true, silent = true, nowait = true })
+  vim.keymap.set('n', '<C-d>', [[coc#float#has_scroll() ? coc#float#scroll(1) : '\<C-d>']], { expr = true, silent = true, nowait = true })
+  vim.keymap.set('n', '<C-u>', [[coc#float#has_scroll() ? coc#float#scroll(0) : '\<C-u>']], { expr = true, silent = true, nowait = true })
+  vim.keymap.set('i', '<C-d>', [[coc#float#has_scroll() ? '\<c-r>=coc#float#scroll(1)\<CR>' : '\<Right>']], { expr = true, silent = true, nowait = true })
+  vim.keymap.set('i', '<C-u>', [[coc#float#has_scroll() ? '\<c-r>=coc#float#scroll(0)\<CR>' : '\<Left>']], { expr = true, silent = true, nowait = true })
+  vim.keymap.set('v', '<C-d>', [[coc#float#has_scroll() ? coc#float#scroll(1) : '\<C-d>']], { expr = true, silent = true, nowait = true })
+  vim.keymap.set('v', '<C-u>', [[coc#float#has_scroll() ? coc#float#scroll(0) : '\<C-u>']], { expr = true, silent = true, nowait = true })
 end
 
-vim.keymap.set("n", "<leader>cld", ":<C-u>CocList diagnostics<CR>", { silent = true })
-vim.keymap.set("n", "<leader>cle", ":<C-u>CocList extensions<CR>", { silent = true })
-vim.keymap.set("n", "<leader>clc", ":<C-u>CocList commands<CR>", { silent = true })
-vim.keymap.set("n", "<leader>clo", ":<C-u>CocList outline<CR>", { silent = true })
-vim.keymap.set("n", "<leader>cly", ":<C-u>CocList -I symbols<CR>", { silent = true })
-vim.keymap.set("n", "<leader>cn", ":<C-u>CocNext<CR>", { silent = true })
-vim.keymap.set("n", "<leader>cp", ":<C-u>CocPrev<CR>", { silent = true })
-vim.keymap.set("n", "<leader>clr", ":<C-u>CocListResume<CR>", { silent = true })
+vim.keymap.set('n', '<leader>cld', ':<C-u>CocList diagnostics<CR>', { silent = true })
+vim.keymap.set('n', '<leader>cle', ':<C-u>CocList extensions<CR>', { silent = true })
+vim.keymap.set('n', '<leader>clc', ':<C-u>CocList commands<CR>', { silent = true })
+vim.keymap.set('n', '<leader>clo', ':<C-u>CocList outline<CR>', { silent = true })
+vim.keymap.set('n', '<leader>cly', ':<C-u>CocList -I symbols<CR>', { silent = true })
+vim.keymap.set('n', '<leader>cn', ':<C-u>CocNext<CR>', { silent = true })
+vim.keymap.set('n', '<leader>cp', ':<C-u>CocPrev<CR>', { silent = true })
+vim.keymap.set('n', '<leader>clr', ':<C-u>CocListResume<CR>', { silent = true })
 
 
 vim.opt.statusline:append('%{coc#status()}%{get(b:,"coc_current_function","")}')
@@ -307,7 +293,7 @@ vim.keymap.set('n', ']g', '<Plug>(GitGutterNextHunk)', { silent = true })
 
 
 -- PLUGIN dockergen
-vim.g.DoxygenToolkit_commentType = "C++"
+vim.g.DoxygenToolkit_commentType = 'C++'
 
 
 -- PLUGIN defx
@@ -336,16 +322,16 @@ local function defx_mappings()
   local opts = { silent = true, expr = true, buffer = true }
 
   vim.keymap.set('n', 'o', defx_toggle_tree, opts)
-  vim.keymap.set('n', 's', "defx#do_action('drop', 'vsplit')", opts)
-  vim.keymap.set('n', 'S', "defx#do_action('drop', 'split')", opts)
-  vim.keymap.set('n', 'm', "defx#do_action('rename')", opts)
-  vim.keymap.set('n', 'd', "defx#do_action('remove')", opts)
-  vim.keymap.set('n', 'c', "defx#do_action('new_file')", opts)
-  vim.keymap.set('n', 'C', "defx#do_action('new_directory')", opts)
-  vim.keymap.set('n', 'yy', "defx#do_action('yank_path')", opts)
-  vim.keymap.set('n', 'Y', "defx#do_action('copy')", opts)
-  vim.keymap.set('n', 'p', "defx#do_action('paste')", opts)
-  vim.keymap.set('n', 'r', "defx#do_action('redraw')", opts)
+  vim.keymap.set('n', 's', 'defx#do_action("drop", "vsplit")', opts)
+  vim.keymap.set('n', 'S', 'defx#do_action("drop", "split")', opts)
+  vim.keymap.set('n', 'm', 'defx#do_action("rename")', opts)
+  vim.keymap.set('n', 'd', 'defx#do_action("remove")', opts)
+  vim.keymap.set('n', 'c', 'defx#do_action("new_file")', opts)
+  vim.keymap.set('n', 'C', 'defx#do_action("new_directory")', opts)
+  vim.keymap.set('n', 'yy', 'defx#do_action("yank_path")', opts)
+  vim.keymap.set('n', 'Y', 'defx#do_action("copy")', opts)
+  vim.keymap.set('n', 'p', 'defx#do_action("paste")', opts)
+  vim.keymap.set('n', 'r', 'defx#do_action("redraw")', opts)
 end
 
 vim.api.nvim_create_autocmd('FileType', {
@@ -362,7 +348,6 @@ vim.api.nvim_set_hl(0, 'markdownH3', { fg='#ffaf5f', ctermfg=yellow })
 vim.api.nvim_set_hl(0, 'htmlH1', { fg='#ff5f5f', ctermfg=red })
 vim.api.nvim_set_hl(0, 'htmlH2', { fg='#ff875f', ctermfg=green })
 vim.api.nvim_set_hl(0, 'htmlH3', { fg='#ffaf5f', ctermfg=yellow })
-
 
 vim.g.vim_markdown_folding_disabled = 1
 
