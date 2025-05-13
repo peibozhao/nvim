@@ -352,6 +352,13 @@ vim.keymap.set("i", "<S-Tab>", function()
   end
 end, { expr = true, silent = true, buffer = true })
 
+-- copilot
+vim.keymap.set('i', '<C-f>', 'copilot#Accept("\\<CR>")', {
+  expr = true, replace_keycodes = false, buffer = true
+})
+vim.g.copilot_no_tab_map = true
 
+
+-------------------------------------------------------------------
 vim.cmd('source ' .. vim.fn.stdpath('config') .. '/init.fixup.vim')
 
