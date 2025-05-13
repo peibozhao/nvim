@@ -311,7 +311,7 @@ vim.fn['defx#custom#option']('_', {
 })
 
 local function defx_toggle_tree()
-  if vim.fn['defx#is_directory']() == 1 then
+  if vim.fn['defx#is_directory']() then
     return vim.fn['defx#do_action']('open_or_close_tree')
   else
     return vim.fn['defx#do_action']('multi', { 'drop' })
