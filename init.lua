@@ -178,14 +178,13 @@ vim.opt.updatetime = 300
 vim.opt.shortmess:append('c')
 vim.opt.signcolumn = 'yes'
 
--- vim.keymap.set('i', '<C-Space>', 'coc#refresh()', { expr = true, silent = true })
 vim.keymap.set('i', '<CR>', function()
-  if vim.fn.pumvisible() == 1 then
-    return '<C-y>'
+  if vim.fn['coc#pum#visible']() == 1 then
+    return vim.fn['coc#pum#confirm']()
   else
-    return '<C-g>u<CR>'
+    return '<C-g>u<CR><c-r>=coc#on_enter()<CR>'
   end
-end, { expr = true })
+end, { expr = true, silent = true, buffer = true })
 
 vim.keymap.set('n', '[c', '<Plug>(coc-diagnostic-prev)', { silent = true })
 vim.keymap.set('n', ']c', '<Plug>(coc-diagnostic-next)', { silent = true })
@@ -336,20 +335,20 @@ local function check_back_space()
 end
 
 vim.keymap.set("i", "<Tab>", function()
-  if vim.fn.pumvisible() == 1 then
-    return vim.api.nvim_replace_termcodes("<C-n>", true, true, true)
+  if vim.fn['coc#pum#visible']() == 1 then
+    return vim.fn['coc#pum#next'](1)
   elseif check_back_space() then
-    return vim.api.nvim_replace_termcodes("<Tab>", true, true, true)
+    return '<Tab>'
   else
-    return vim.fn["coc#refresh"]()
+    return vim.fn['coc#refresh']()
   end
 end, { expr = true, silent = true, buffer = true })
 
 vim.keymap.set("i", "<S-Tab>", function()
-  if vim.fn.pumvisible() == 1 then
-    return vim.api.nvim_replace_termcodes("<C-p>", true, true, true)
+  if vim.fn['coc#pum#visible']() == 1 then
+    return vim.fn['coc#pum#prev'](1)
   else
-    return vim.api.nvim_replace_termcodes("<C-h>", true, true, true)
+    return '<C-h>'
   end
 end, { expr = true, silent = true, buffer = true })
 
