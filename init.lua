@@ -28,20 +28,13 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
--- 自动设置 colorcolumn 仅用于 cpp 和 c
-vim.api.nvim_create_autocmd('BufEnter', {
-  pattern = '*',
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = {'cpp', 'c'},
   callback = function()
-    local ft = vim.bo.filetype
-    if ft == 'cpp' or ft == 'c' then
-      vim.opt.colorcolumn = '80'
-    else
-      vim.opt.colorcolumn = ''
-    end
+    vim.opt.colorcolumn = '80'
   end,
 })
 
--- defx 不显示行号
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'defx',
   callback = function()
@@ -50,15 +43,11 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
--- 禁用 MatchParen 高亮（等价于“comment MatchParen”）
--- vim.cmd('hi clear MatchParen')
 vim.api.nvim_set_hl(0, 'MatchParen', {})
 
 -- 分割线样式
--- vim.cmd('hi VertSplit cterm=NONE ctermfg=Green ctermbg=NONE')
--- vim.cmd('hi ColorColumn cterm=NONE ctermfg=NONE ctermbg=DarkGray')
-vim.api.nvim_set_hl(0, 'VertSplit', { cterm=nil, fg=Green, bg=nil })
-vim.api.nvim_set_hl(0, 'ColorColumn', { cterm=nil, fg=nil, bg='DarkGray' })
+vim.api.nvim_set_hl(0, 'VertSplit', { cterm=nil, fg='green', bg=nil })
+vim.api.nvim_set_hl(0, 'ColorColumn', { cterm=nil, fg=nil, bg='darkgray' })
 
 -- 高亮行尾空白等
 vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg='red' })
@@ -81,7 +70,7 @@ vim.api.nvim_set_keymap('c', '<C-T>', 'sp term://bash<CR>', { noremap = true, si
 
 
 -- terminal 模式下 Esc 切换回普通模式
-vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { noremap = true })
 
 -- 为 .hcc 文件设置 filetype 为 cpp
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
@@ -189,38 +178,14 @@ vim.opt.updatetime = 300
 vim.opt.shortmess:append('c')
 vim.opt.signcolumn = 'yes'
 
-local function check_back_space()
-  local col = vim.fn.col('.') - 1
-  if col == 0 then
-    return true
-  end
-  local line = vim.fn.getline('.')
-  return line:sub(col, col):match('%s') ~= nil
-end
-
-local function show_documentation()
-  local filetype = vim.bo.filetype
-  if filetype == 'vim' or filetype == 'help' then
-    vim.cmd('help ' .. vim.fn.expand('<cword>'))
-  else
-    vim.fn.CocAction('doHover')
-  end
-end
-
-vim.keymap.set('i', '<Tab>', function()
+-- vim.keymap.set('i', '<C-Space>', 'coc#refresh()', { expr = true, silent = true })
+vim.keymap.set('i', '<CR>', function()
   if vim.fn.pumvisible() == 1 then
-    return vim.api.nvim_replace_termcodes('<C-n>', true, true, true)
-  elseif check_back_space() then
-    return vim.api.nvim_replace_termcodes('<Tab>', true, true, true)
+    return '<C-y>'
   else
-    return vim.fn['coc#refresh']()
+    return '<C-g>u<CR>'
   end
-end, { expr = true, silent = true })
-
-
-vim.keymap.set('i', '<S-TAB>', [[pumvisible() ? '\<C-p>' : '\<C-h>']], { expr = true })
-vim.keymap.set('i', '<C-Space>', 'coc#refresh()', { expr = true, silent = true })
-vim.keymap.set('i', '<CR>', [[pumvisible() ? '\<C-y>' : '\<C-g>u\<CR>']], { expr = true })
+end, { expr = true })
 
 vim.keymap.set('n', '[c', '<Plug>(coc-diagnostic-prev)', { silent = true })
 vim.keymap.set('n', ']c', '<Plug>(coc-diagnostic-next)', { silent = true })
@@ -232,59 +197,87 @@ vim.keymap.set('n', '<leader>gr', '<Plug>(coc-references)', { silent = true })
 vim.keymap.set('n', '<leader>to', ':CocOutline<CR>', { silent = true })
 
 vim.keymap.set('n', '<leader>rn', '<Plug>(coc-rename)', { silent = true })
-vim.keymap.set('n', 'K', show_documentation, { silent = true })
+vim.keymap.set('n', 'K', function()
+  local filetype = vim.bo.filetype
+  if filetype == 'vim' or filetype == 'help' then
+    vim.cmd('help ' .. vim.fn.expand('<cword>'))
+  else
+    vim.fn.CocAction('doHover')
+  end
+end, { silent = true })
 
-vim.keymap.set('x', '<leader>f', '<Plug>(coc-format-selected)')
-vim.keymap.set('n', '<leader>f', '<Plug>(coc-format-selected)')
+-- autocmd CursorHold * silent call CocActionAsync('highlight')
 
-vim.keymap.set('x', '<leader>a', '<Plug>(coc-codeaction-selected)')
-vim.keymap.set('n', '<leader>a', '<Plug>(coc-codeaction-selected)')
+-- TODO coc#float#has_scroll好像一直返回0, 在vimscript中也一样
+vim.keymap.set('n', '<C-d>', function()
+  if vim.fn['coc#float#has_scroll']() == 0 then
+    return '<C-d>'
+  else
+    vim.fn['coc#float#scroll'](1)
+  end
+end, { expr = true, silent = true, nowait = true })
+vim.keymap.set('n', '<C-u>', function()
+  if vim.fn['coc#float#has_scroll']() == 0 then
+    return '<C-u>'
+  else
+    vim.fn['coc#float#scroll'](0)
+  end
+end, { expr = true, silent = true, nowait = true })
+vim.keymap.set('i', '<C-d>', function()
+  local l = vim.fn['coc#float#has_scroll']()
+  vim.notify(type(l))
+  vim.notify(tostring(l))
+  if vim.fn['coc#float#has_scroll']() == 1 then
+    vim.fn['coc#float#scroll'](1)
+  else
+    return '<Right>'
+  end
+end, { expr = true, silent = true, nowait = true })
+vim.keymap.set('i', '<C-u>', function()
+  local l = vim.fn['coc#float#has_scroll']()
+  vim.notify(tostring(l))
+  if vim.fn['coc#float#has_scroll']() == 1 then
+    vim.fn['coc#float#scroll'](0)
+  else
+    return '<Left>'
+  end
+end, { expr = true, silent = true, nowait = true })
+vim.keymap.set('v', '<C-d>', function()
+  if vim.fn['coc#float#has_scroll']() == 0 then
+    return '<C-d>'
+  else
+    vim.fn['coc#float#scroll'](1)
+  end
+end, { expr = true, silent = true, nowait = true })
+vim.keymap.set('v', '<C-u>', function()
+  if vim.fn['coc#float#has_scroll']() == 0 then
+    return '<C-u>'
+  else
+    vim.fn['coc#float#scroll'](0)
+  end
+end, { expr = true, silent = true, nowait = true })
+-- TODO
 
-vim.keymap.set('n', '<leader>ac', '<Plug>(coc-codeaction)')
-vim.keymap.set('n', '<leader>qf', '<Plug>(coc-fix-current)')
-
-vim.keymap.set('x', 'if', '<Plug>(coc-funcobj-i)')
-vim.keymap.set('x', 'af', '<Plug>(coc-funcobj-a)')
-vim.keymap.set('o', 'if', '<Plug>(coc-funcobj-i)')
-vim.keymap.set('o', 'af', '<Plug>(coc-funcobj-a)')
-
-vim.cmd([[
- augroup mygroup
-   autocmd!
-   autocmd CursorHold * silent call CocActionAsync('highlight')
-   autocmd FileType typescript,json setlocal formatexpr=CocAction('formatSelected')
-   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
- augroup END
- ]])
-
-
-if vim.fn.has('nvim-0.4.0') == 1 or vim.fn.has('patch-8.2.0750') == 1 then
-  vim.keymap.set('n', '<C-d>', [[coc#float#has_scroll() ? coc#float#scroll(1) : '\<C-d>']], { expr = true, silent = true, nowait = true })
-  vim.keymap.set('n', '<C-u>', [[coc#float#has_scroll() ? coc#float#scroll(0) : '\<C-u>']], { expr = true, silent = true, nowait = true })
-  vim.keymap.set('i', '<C-d>', [[coc#float#has_scroll() ? '\<c-r>=coc#float#scroll(1)\<CR>' : '\<Right>']], { expr = true, silent = true, nowait = true })
-  vim.keymap.set('i', '<C-u>', [[coc#float#has_scroll() ? '\<c-r>=coc#float#scroll(0)\<CR>' : '\<Left>']], { expr = true, silent = true, nowait = true })
-  vim.keymap.set('v', '<C-d>', [[coc#float#has_scroll() ? coc#float#scroll(1) : '\<C-d>']], { expr = true, silent = true, nowait = true })
-  vim.keymap.set('v', '<C-u>', [[coc#float#has_scroll() ? coc#float#scroll(0) : '\<C-u>']], { expr = true, silent = true, nowait = true })
-end
-
-vim.keymap.set('n', '<leader>cld', ':<C-u>CocList diagnostics<CR>', { silent = true })
-vim.keymap.set('n', '<leader>cle', ':<C-u>CocList extensions<CR>', { silent = true })
-vim.keymap.set('n', '<leader>clc', ':<C-u>CocList commands<CR>', { silent = true })
-vim.keymap.set('n', '<leader>clo', ':<C-u>CocList outline<CR>', { silent = true })
-vim.keymap.set('n', '<leader>cly', ':<C-u>CocList -I symbols<CR>', { silent = true })
 vim.keymap.set('n', '<leader>cn', ':<C-u>CocNext<CR>', { silent = true })
 vim.keymap.set('n', '<leader>cp', ':<C-u>CocPrev<CR>', { silent = true })
-vim.keymap.set('n', '<leader>clr', ':<C-u>CocListResume<CR>', { silent = true })
-
 
 vim.opt.statusline:append('%{coc#status()}%{get(b:,"coc_current_function","")}')
 
 vim.g.coc_snippet_next = '<C-f>'
 
 
--- PLUGIN markdown-preview
+-- PLUGIN markdown
 vim.g.vim_markdown_preview_browser='firefox'
 vim.g.mkdp_auto_close = 0
+
+vim.g.vim_markdown_folding_disabled = 1
+vim.api.nvim_set_hl(0, 'markdownH1', { fg='#ff5f5f', ctermfg=red })
+vim.api.nvim_set_hl(0, 'markdownH2', { fg='#ff875f', ctermfg=green })
+vim.api.nvim_set_hl(0, 'markdownH3', { fg='#ffaf5f', ctermfg=yellow })
+
+vim.api.nvim_set_hl(0, 'htmlH1', { fg='#ff5f5f', ctermfg=red })
+vim.api.nvim_set_hl(0, 'htmlH2', { fg='#ff875f', ctermfg=green })
+vim.api.nvim_set_hl(0, 'htmlH3', { fg='#ffaf5f', ctermfg=yellow })
 
 
 -- PLUGIN gitgutter
@@ -340,14 +333,5 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 
--- markdown vim-markdown
-vim.api.nvim_set_hl(0, 'markdownH1', { fg='#ff5f5f', ctermfg=red })
-vim.api.nvim_set_hl(0, 'markdownH2', { fg='#ff875f', ctermfg=green })
-vim.api.nvim_set_hl(0, 'markdownH3', { fg='#ffaf5f', ctermfg=yellow })
-
-vim.api.nvim_set_hl(0, 'htmlH1', { fg='#ff5f5f', ctermfg=red })
-vim.api.nvim_set_hl(0, 'htmlH2', { fg='#ff875f', ctermfg=green })
-vim.api.nvim_set_hl(0, 'htmlH3', { fg='#ffaf5f', ctermfg=yellow })
-
-vim.g.vim_markdown_folding_disabled = 1
+vim.cmd('source ' .. vim.fn.stdpath('config') .. '/init.fixup.vim')
 
