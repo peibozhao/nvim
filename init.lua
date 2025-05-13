@@ -46,16 +46,16 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.api.nvim_set_hl(0, 'MatchParen', {})
 
 -- 分割线样式
-vim.api.nvim_set_hl(0, 'VertSplit', { cterm=nil, fg='green', bg=nil })
-vim.api.nvim_set_hl(0, 'ColorColumn', { cterm=nil, fg=nil, bg='darkgray' })
+vim.api.nvim_set_hl(0, 'VertSplit', { ctermfg='green' })
+vim.api.nvim_set_hl(0, 'ColorColumn', { ctermbg='darkgray' })
 
 -- 高亮行尾空白等
-vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg='red' })
-vim.api.nvim_set_hl(0, 'DiffAdd', { cterm={ bold=true }, fg=10, bg=17 })
-vim.api.nvim_set_hl(0, 'DiffDelete', { cterm={ bold=true }, fg=10, bg=17 })
-vim.api.nvim_set_hl(0, 'DiffChange', { cterm={ bold=true }, fg=10, bg=17 })
-vim.api.nvim_set_hl(0, 'DiffText', { cterm={ bold=true }, fg=10, bg=88 })
-vim.api.nvim_set_hl(0, 'RedundantSpaces', { bg='red' })
+vim.api.nvim_set_hl(0, 'ExtraWhitespace', { ctermbg='red' })
+vim.api.nvim_set_hl(0, 'DiffAdd', { cterm={ bold=true }, ctermfg=10, ctermbg=17 })
+vim.api.nvim_set_hl(0, 'DiffDelete', { cterm={ bold=true }, ctermfg=10, ctermbg=17 })
+vim.api.nvim_set_hl(0, 'DiffChange', { cterm={ bold=true }, ctermfg=10, ctermbg=17 })
+vim.api.nvim_set_hl(0, 'DiffText', { cterm={ bold=true }, ctermfg=10, ctermbg=88 })
+vim.api.nvim_set_hl(0, 'RedundantSpaces', { ctermbg='red' })
 
 -- 匹配多余空格
 vim.cmd([[match RedundantSpaces /\s\+$\| \+\ze\t\|\t/]])
@@ -265,13 +265,13 @@ vim.g.vim_markdown_preview_browser='firefox'
 vim.g.mkdp_auto_close = 0
 
 vim.g.vim_markdown_folding_disabled = 1
-vim.api.nvim_set_hl(0, 'markdownH1', { fg='#ff5f5f', ctermfg=red })
-vim.api.nvim_set_hl(0, 'markdownH2', { fg='#ff875f', ctermfg=green })
-vim.api.nvim_set_hl(0, 'markdownH3', { fg='#ffaf5f', ctermfg=yellow })
+vim.api.nvim_set_hl(0, 'markdownH1', { cterm = { bold=true }, ctermfg='red' })
+vim.api.nvim_set_hl(0, 'markdownH2', { cterm = { bold=true }, ctermfg='green' })
+vim.api.nvim_set_hl(0, 'markdownH3', { cterm = { bold=true }, ctermfg='yellow' })
 
-vim.api.nvim_set_hl(0, 'htmlH1', { fg='#ff5f5f', ctermfg=red })
-vim.api.nvim_set_hl(0, 'htmlH2', { fg='#ff875f', ctermfg=green })
-vim.api.nvim_set_hl(0, 'htmlH3', { fg='#ffaf5f', ctermfg=yellow })
+vim.api.nvim_set_hl(0, 'htmlH1', { cterm = { bold=true }, ctermfg='red' })
+vim.api.nvim_set_hl(0, 'htmlH2', { cterm = { bold=true }, ctermfg='green' })
+vim.api.nvim_set_hl(0, 'htmlH3', { cterm = { bold=true }, ctermfg='yellow' })
 
 
 -- PLUGIN gitgutter
@@ -325,6 +325,33 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = 'defx',
   callback = defx_mappings,
 })
+
+local function check_back_space()
+  local col = vim.fn.col('.') - 1
+  if col == 0 then
+    return true
+  end
+  local line = vim.fn.getline('.')
+  return line:sub(col, col):match('%s') ~= nil
+end
+
+vim.keymap.set("i", "<Tab>", function()
+  if vim.fn.pumvisible() == 1 then
+    return vim.api.nvim_replace_termcodes("<C-n>", true, true, true)
+  elseif check_back_space() then
+    return vim.api.nvim_replace_termcodes("<Tab>", true, true, true)
+  else
+    return vim.fn["coc#refresh"]()
+  end
+end, { expr = true, silent = true, buffer = true })
+
+vim.keymap.set("i", "<S-Tab>", function()
+  if vim.fn.pumvisible() == 1 then
+    return vim.api.nvim_replace_termcodes("<C-p>", true, true, true)
+  else
+    return vim.api.nvim_replace_termcodes("<C-h>", true, true, true)
+  end
+end, { expr = true, silent = true, buffer = true })
 
 
 vim.cmd('source ' .. vim.fn.stdpath('config') .. '/init.fixup.vim')
