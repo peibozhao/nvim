@@ -208,7 +208,7 @@ end, { silent = true })
 
 -- autocmd CursorHold * silent call CocActionAsync('highlight')
 
--- TODO coc#float#has_scroll好像一直返回0, 在vimscript中也一样
+-- coc#float#has_scroll好像一直返回0, 看着是自己过滤了自动补全的float窗口
 vim.keymap.set('n', '<C-d>', function()
   if vim.fn['coc#float#has_scroll']() == 0 then
     return '<C-d>'
@@ -224,9 +224,6 @@ vim.keymap.set('n', '<C-u>', function()
   end
 end, { expr = true, silent = true, nowait = true })
 vim.keymap.set('i', '<C-d>', function()
-  local l = vim.fn['coc#float#has_scroll']()
-  vim.notify(type(l))
-  vim.notify(tostring(l))
   if vim.fn['coc#float#has_scroll']() == 1 then
     vim.fn['coc#float#scroll'](1)
   else
@@ -234,8 +231,6 @@ vim.keymap.set('i', '<C-d>', function()
   end
 end, { expr = true, silent = true, nowait = true })
 vim.keymap.set('i', '<C-u>', function()
-  local l = vim.fn['coc#float#has_scroll']()
-  vim.notify(tostring(l))
   if vim.fn['coc#float#has_scroll']() == 1 then
     vim.fn['coc#float#scroll'](0)
   else
@@ -256,7 +251,6 @@ vim.keymap.set('v', '<C-u>', function()
     vim.fn['coc#float#scroll'](0)
   end
 end, { expr = true, silent = true, nowait = true })
--- TODO
 
 vim.keymap.set('n', '<leader>cn', ':<C-u>CocNext<CR>', { silent = true })
 vim.keymap.set('n', '<leader>cp', ':<C-u>CocPrev<CR>', { silent = true })
