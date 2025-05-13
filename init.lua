@@ -18,7 +18,7 @@ vim.opt.cursorline = true
 vim.opt.fillchars = { vert = '│' }
 vim.opt.diffopt:append('vertical')
 
-vim.cmd('colorscheme darkblue')
+vim.cmd('colorscheme evening')
 
 -- makefile保留tab
 vim.api.nvim_create_autocmd('FileType', {
