@@ -49,16 +49,15 @@ vim.api.nvim_set_hl(0, 'MatchParen', {})
 vim.api.nvim_set_hl(0, 'VertSplit', { fg = 'green', ctermfg = 'green' })
 vim.api.nvim_set_hl(0, 'ColorColumn', { bg = 'darkgray', ctermbg = 'darkgray' })
 
--- 高亮行尾空白等
-vim.api.nvim_set_hl(0, 'ExtraWhitespace', { ctermbg = 'red' })
+-- 高亮行尾空白
+vim.fn.matchadd('ExtraWhitespace', [[\s\+$\| \+\ze\t\|\t]])
+vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg = 'red', ctermbg = 'red' })
+
 vim.api.nvim_set_hl(0, 'DiffAdd', { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
 vim.api.nvim_set_hl(0, 'DiffDelete', { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
 vim.api.nvim_set_hl(0, 'DiffChange', { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
 vim.api.nvim_set_hl(0, 'DiffText', { fg = 10, bg = 88, ctermfg = 10, ctermbg = 88 })
-vim.api.nvim_set_hl(0, 'RedundantSpaces', { ctermbg = 'red' })
 
--- 匹配多余空格
-vim.cmd([[match RedundantSpaces /\s\+$\| \+\ze\t\|\t/]])
 
 -- terimial
 vim.api.nvim_set_keymap('c', '<C-A>', '<Home>', { noremap = true })
