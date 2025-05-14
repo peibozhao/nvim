@@ -53,10 +53,10 @@ vim.api.nvim_set_hl(0, 'ColorColumn', { bg = 'darkgray', ctermbg = 'darkgray' })
 vim.fn.matchadd('ExtraWhitespace', [[\s\+$\| \+\ze\t\|\t]])
 vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg = 'red', ctermbg = 'red' })
 
-vim.api.nvim_set_hl(0, 'DiffAdd', { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
-vim.api.nvim_set_hl(0, 'DiffDelete', { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
-vim.api.nvim_set_hl(0, 'DiffChange', { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
-vim.api.nvim_set_hl(0, 'DiffText', { fg = 10, bg = 88, ctermfg = 10, ctermbg = 88 })
+-- vim.api.nvim_set_hl(0, 'DiffAdd', { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
+-- vim.api.nvim_set_hl(0, 'DiffDelete', { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
+-- vim.api.nvim_set_hl(0, 'DiffChange', { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
+-- vim.api.nvim_set_hl(0, 'DiffText', { fg = 10, bg = 88, ctermfg = 10, ctermbg = 88 })
 
 
 -- terimial
