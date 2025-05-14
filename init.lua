@@ -46,16 +46,16 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.api.nvim_set_hl(0, 'MatchParen', {})
 
 -- 分割线样式
-vim.api.nvim_set_hl(0, 'VertSplit', { ctermfg = 'green' })
-vim.api.nvim_set_hl(0, 'ColorColumn', { ctermbg = 'darkgray' })
+vim.api.nvim_set_hl(0, 'VertSplit', { fg = 'green', ctermfg = 'green' })
+vim.api.nvim_set_hl(0, 'ColorColumn', { bg = 'darkgray', ctermbg = 'darkgray' })
 
 -- 高亮行尾空白等
-vim.api.nvim_set_hl(0, 'ExtraWhitespace', { ctermbg='red' })
-vim.api.nvim_set_hl(0, 'DiffAdd', { cterm={ bold=true }, ctermfg=10, ctermbg=17 })
-vim.api.nvim_set_hl(0, 'DiffDelete', { cterm={ bold=true }, ctermfg=10, ctermbg=17 })
-vim.api.nvim_set_hl(0, 'DiffChange', { cterm={ bold=true }, ctermfg=10, ctermbg=17 })
-vim.api.nvim_set_hl(0, 'DiffText', { cterm={ bold=true }, ctermfg=10, ctermbg=88 })
-vim.api.nvim_set_hl(0, 'RedundantSpaces', { ctermbg='red' })
+vim.api.nvim_set_hl(0, 'ExtraWhitespace', { ctermbg = 'red' })
+vim.api.nvim_set_hl(0, 'DiffAdd', { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
+vim.api.nvim_set_hl(0, 'DiffDelete', { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
+vim.api.nvim_set_hl(0, 'DiffChange', { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
+vim.api.nvim_set_hl(0, 'DiffText', { fg = 10, bg = 88, ctermfg = 10, ctermbg = 88 })
+vim.api.nvim_set_hl(0, 'RedundantSpaces', { ctermbg = 'red' })
 
 -- 匹配多余空格
 vim.cmd([[match RedundantSpaces /\s\+$\| \+\ze\t\|\t/]])
@@ -260,13 +260,13 @@ vim.g.vim_markdown_preview_browser='firefox'
 vim.g.mkdp_auto_close = 0
 
 vim.g.vim_markdown_folding_disabled = 1
-vim.api.nvim_set_hl(0, 'markdownH1', { cterm = { bold = true }, ctermfg = 'red' })
-vim.api.nvim_set_hl(0, 'markdownH2', { cterm = { bold = true }, ctermfg = 'green' })
-vim.api.nvim_set_hl(0, 'markdownH3', { cterm = { bold = true }, ctermfg = 'yellow' })
+vim.api.nvim_set_hl(0, 'markdownH1', { cterm = { bold = true }, fg = 'lightred' , ctermfg = 'lightred' })
+vim.api.nvim_set_hl(0, 'markdownH2', { cterm = { bold = true }, fg = 'yellow', ctermfg = 'yellow' })
+vim.api.nvim_set_hl(0, 'markdownH3', { cterm = { bold = true }, fg = 'green', ctermfg = 'green' })
 
-vim.api.nvim_set_hl(0, 'htmlH1', { cterm = { bold = true }, ctermfg = 'red' })
-vim.api.nvim_set_hl(0, 'htmlH2', { cterm = { bold = true }, ctermfg = 'green' })
-vim.api.nvim_set_hl(0, 'htmlH3', { cterm = { bold = true }, ctermfg = 'yellow' })
+vim.api.nvim_set_hl(0, 'htmlH1', { cterm = { bold = true }, fg = 'lightred', ctermfg = 'lightred' })
+vim.api.nvim_set_hl(0, 'htmlH2', { cterm = { bold = true }, fg = 'yellow', ctermfg = 'yellow' })
+vim.api.nvim_set_hl(0, 'htmlH3', { cterm = { bold = true }, fg = 'green', ctermfg = 'green' })
 
 
 -- PLUGIN gitgutter
