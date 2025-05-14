@@ -46,8 +46,8 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.api.nvim_set_hl(0, 'MatchParen', {})
 
 -- 分割线样式
-vim.api.nvim_set_hl(0, 'VertSplit', { ctermfg='green' })
-vim.api.nvim_set_hl(0, 'ColorColumn', { ctermbg='darkgray' })
+vim.api.nvim_set_hl(0, 'VertSplit', { ctermfg = 'green' })
+vim.api.nvim_set_hl(0, 'ColorColumn', { ctermbg = 'darkgray' })
 
 -- 高亮行尾空白等
 vim.api.nvim_set_hl(0, 'ExtraWhitespace', { ctermbg='red' })
@@ -60,17 +60,14 @@ vim.api.nvim_set_hl(0, 'RedundantSpaces', { ctermbg='red' })
 -- 匹配多余空格
 vim.cmd([[match RedundantSpaces /\s\+$\| \+\ze\t\|\t/]])
 
--- 命令行模式映射
-vim.api.nvim_set_keymap('c', '<C-A>', '<Home>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('c', '<C-F>', '<Right>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('c', '<C-B>', '<Left>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('c', '<C-P>', '<Up>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('c', '<C-N>', '<Down>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('c', '<C-T>', 'sp term://bash<CR>', { noremap = true, silent = true })
-
-
--- terminal 模式下 Esc 切换回普通模式
-vim.keymap.set('t', '<Esc>', '<C-\\><C-N>', { noremap = true })
+-- terimial
+vim.api.nvim_set_keymap('c', '<C-A>', '<Home>', { noremap = true })
+vim.api.nvim_set_keymap('c', '<C-F>', '<Right>', { noremap = true })
+vim.api.nvim_set_keymap('c', '<C-B>', '<Left>', { noremap = true })
+vim.api.nvim_set_keymap('c', '<C-P>', '<Up>', { noremap = true })
+vim.api.nvim_set_keymap('c', '<C-N>', '<Down>', { noremap = true })
+vim.api.nvim_set_keymap('c', '<C-T>', 'sp term://bash<CR>', { noremap = true })
+vim.keymap.set('t', '<Esc>', '<C-\\><C-N>', { noremap = true }) -- esc切换回normal模式
 
 -- 为 .hcc 文件设置 filetype 为 cpp
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
@@ -263,13 +260,13 @@ vim.g.vim_markdown_preview_browser='firefox'
 vim.g.mkdp_auto_close = 0
 
 vim.g.vim_markdown_folding_disabled = 1
-vim.api.nvim_set_hl(0, 'markdownH1', { cterm = { bold=true }, ctermfg='red' })
-vim.api.nvim_set_hl(0, 'markdownH2', { cterm = { bold=true }, ctermfg='green' })
-vim.api.nvim_set_hl(0, 'markdownH3', { cterm = { bold=true }, ctermfg='yellow' })
+vim.api.nvim_set_hl(0, 'markdownH1', { cterm = { bold = true }, ctermfg = 'red' })
+vim.api.nvim_set_hl(0, 'markdownH2', { cterm = { bold = true }, ctermfg = 'green' })
+vim.api.nvim_set_hl(0, 'markdownH3', { cterm = { bold = true }, ctermfg = 'yellow' })
 
-vim.api.nvim_set_hl(0, 'htmlH1', { cterm = { bold=true }, ctermfg='red' })
-vim.api.nvim_set_hl(0, 'htmlH2', { cterm = { bold=true }, ctermfg='green' })
-vim.api.nvim_set_hl(0, 'htmlH3', { cterm = { bold=true }, ctermfg='yellow' })
+vim.api.nvim_set_hl(0, 'htmlH1', { cterm = { bold = true }, ctermfg = 'red' })
+vim.api.nvim_set_hl(0, 'htmlH2', { cterm = { bold = true }, ctermfg = 'green' })
+vim.api.nvim_set_hl(0, 'htmlH3', { cterm = { bold = true }, ctermfg = 'yellow' })
 
 
 -- PLUGIN gitgutter
@@ -351,10 +348,9 @@ vim.keymap.set('i', '<S-Tab>', function()
   end
 end, { expr = true, silent = true, buffer = true })
 
--- copilot
-vim.keymap.set('i', '<C-F>', function ()
-  return vim.fn['copilot#Accept']('\\<CR>')
-end, { expr = true, replace_keycodes = false, buffer = true })
+vim.keymap.set('i', '<C-F>', 'copilot#Accept("\\<CR>")', {
+  expr = true, replace_keycodes = false
+})
 vim.g.copilot_no_tab_map = true
 
 
