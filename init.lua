@@ -70,7 +70,7 @@ vim.api.nvim_set_keymap('c', '<C-T>', 'sp term://bash<CR>', { noremap = true, si
 
 
 -- terminal 模式下 Esc 切换回普通模式
-vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { noremap = true })
+vim.keymap.set('t', '<Esc>', '<C-\\><C-N>', { noremap = true })
 
 -- 为 .hcc 文件设置 filetype 为 cpp
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
@@ -93,10 +93,9 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 
 
 -- PLUGIN vim-snippet
-vim.g.UltiSnipsExpandTrigger = '<C-f>'
-vim.g.UltiSnipsListSnippets = '<C-x>'
-vim.g.UltiSnipsJumpForwardTrigger = '<C-f>'
-vim.g.UltiSnipsJumpBackwardTrigger = '<C-b>'
+vim.g.UltiSnipsExpandTrigger = '<C-G>'
+-- vim.g.UltiSnipsJumpForwardTrigger = '<C-N>'
+-- vim.g.UltiSnipsJumpBackwardTrigger = '<C-B>'
 
 
 -- PLUGIN a.vim
@@ -127,8 +126,8 @@ vim.g.NERDDefaultAlign = 'left' -- 受formatoptions影响
 -- 与mark.vim冲突
 -- nnoremap <leader>mru :LeaderfMru<CR>
 vim.keymap.set('n', '<leader>lf', ':LeaderfFunction<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-b>', ':LeaderfBuffer<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-p>', ':LeaderfFile<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-B>', ':LeaderfBuffer<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-P>', ':LeaderfFile<CR>', { noremap = true, silent = true })
 
 
 -- PLUGIN Ack
@@ -182,7 +181,7 @@ vim.keymap.set('i', '<CR>', function()
   if vim.fn['coc#pum#visible']() == 1 then
     return vim.fn['coc#pum#confirm']()
   else
-    return '<C-g>u<CR><c-r>=coc#on_enter()<CR>'
+    return '<C-G>u<CR><C-R>=coc#on_enter()<CR>'
   end
 end, { expr = true, silent = true, buffer = true })
 
@@ -208,55 +207,55 @@ end, { silent = true })
 -- autocmd CursorHold * silent call CocActionAsync('highlight')
 
 -- coc#float#has_scroll好像一直返回0, 看着是自己过滤了自动补全的float窗口
-vim.keymap.set('n', '<C-d>', function()
+vim.keymap.set('n', '<C-D>', function()
   if vim.fn['coc#float#has_scroll']() == 0 then
-    return '<C-d>'
+    return '<C-D>'
   else
     vim.fn['coc#float#scroll'](1)
   end
 end, { expr = true, silent = true, nowait = true })
-vim.keymap.set('n', '<C-u>', function()
+vim.keymap.set('n', '<C-U>', function()
   if vim.fn['coc#float#has_scroll']() == 0 then
-    return '<C-u>'
+    return '<C-U>'
   else
     vim.fn['coc#float#scroll'](0)
   end
 end, { expr = true, silent = true, nowait = true })
-vim.keymap.set('i', '<C-d>', function()
+vim.keymap.set('i', '<C-D>', function()
   if vim.fn['coc#float#has_scroll']() == 1 then
     vim.fn['coc#float#scroll'](1)
   else
     return '<Right>'
   end
 end, { expr = true, silent = true, nowait = true })
-vim.keymap.set('i', '<C-u>', function()
+vim.keymap.set('i', '<C-U>', function()
   if vim.fn['coc#float#has_scroll']() == 1 then
     vim.fn['coc#float#scroll'](0)
   else
     return '<Left>'
   end
 end, { expr = true, silent = true, nowait = true })
-vim.keymap.set('v', '<C-d>', function()
+vim.keymap.set('v', '<C-D>', function()
   if vim.fn['coc#float#has_scroll']() == 0 then
-    return '<C-d>'
+    return '<C-D>'
   else
     vim.fn['coc#float#scroll'](1)
   end
 end, { expr = true, silent = true, nowait = true })
-vim.keymap.set('v', '<C-u>', function()
+vim.keymap.set('v', '<C-U>', function()
   if vim.fn['coc#float#has_scroll']() == 0 then
-    return '<C-u>'
+    return '<C-U>'
   else
     vim.fn['coc#float#scroll'](0)
   end
 end, { expr = true, silent = true, nowait = true })
 
-vim.keymap.set('n', '<leader>cn', ':<C-u>CocNext<CR>', { silent = true })
-vim.keymap.set('n', '<leader>cp', ':<C-u>CocPrev<CR>', { silent = true })
+vim.keymap.set('n', '<leader>cn', ':<C-U>CocNext<CR>', { silent = true })
+vim.keymap.set('n', '<leader>cp', ':<C-U>CocPrev<CR>', { silent = true })
 
 vim.opt.statusline:append('%{coc#status()}%{get(b:,"coc_current_function","")}')
 
-vim.g.coc_snippet_next = '<C-f>'
+vim.g.coc_snippet_next = '<C-F>'
 
 
 -- PLUGIN markdown
@@ -334,7 +333,7 @@ local function check_back_space()
   return line:sub(col, col):match('%s') ~= nil
 end
 
-vim.keymap.set("i", "<Tab>", function()
+vim.keymap.set('i', '<Tab>', function()
   if vim.fn['coc#pum#visible']() == 1 then
     return vim.fn['coc#pum#next'](1)
   elseif check_back_space() then
@@ -344,21 +343,21 @@ vim.keymap.set("i", "<Tab>", function()
   end
 end, { expr = true, silent = true, buffer = true })
 
-vim.keymap.set("i", "<S-Tab>", function()
+vim.keymap.set('i', '<S-Tab>', function()
   if vim.fn['coc#pum#visible']() == 1 then
     return vim.fn['coc#pum#prev'](1)
   else
-    return '<C-h>'
+    return '<C-H>'
   end
 end, { expr = true, silent = true, buffer = true })
 
 -- copilot
-vim.keymap.set('i', '<C-f>', 'copilot#Accept("\\<CR>")', {
-  expr = true, replace_keycodes = false, buffer = true
-})
+vim.keymap.set('i', '<C-F>', function ()
+  return vim.fn['copilot#Accept']('\\<CR>')
+end, { expr = true, replace_keycodes = false, buffer = true })
 vim.g.copilot_no_tab_map = true
 
 
 -------------------------------------------------------------------
-vim.cmd('source ' .. vim.fn.stdpath('config') .. '/init.fixup.vim')
+vim.cmd('source ' .. vim.fn.stdpath('config') .. '/fixup.vim')
 
