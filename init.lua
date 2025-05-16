@@ -89,7 +89,7 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 
 
 -- PLUGIN vim-snippet
-vim.g.UltiSnipsExpandTrigger = '<C-G>'
+vim.g.UltiSnipsExpandTrigger = '<C-F>'
 -- vim.g.UltiSnipsJumpForwardTrigger = '<C-N>'
 -- vim.g.UltiSnipsJumpBackwardTrigger = '<C-B>'
 
@@ -329,17 +329,17 @@ local function check_back_space()
   return line:sub(col, col):match('%s') ~= nil
 end
 
-vim.keymap.set('i', '<Tab>', function()
+vim.keymap.set('i', '<TAB>', function()
   if vim.fn['coc#pum#visible']() == 1 then
     return vim.fn['coc#pum#next'](1)
   elseif check_back_space() then
-    return '<Tab>'
+    return '<TAB>'
   else
     return vim.fn['coc#refresh']()
   end
 end, { expr = true, silent = true, buffer = true })
 
-vim.keymap.set('i', '<S-Tab>', function()
+vim.keymap.set('i', '<S-TAB>', function()
   if vim.fn['coc#pum#visible']() == 1 then
     return vim.fn['coc#pum#prev'](1)
   else
@@ -347,7 +347,7 @@ vim.keymap.set('i', '<S-Tab>', function()
   end
 end, { expr = true, silent = true, buffer = true })
 
-vim.keymap.set('i', '<C-F>', 'copilot#Accept("\\<CR>")', {
+vim.keymap.set('i', '<C-G>', 'copilot#Accept("\\<CR>")', {
   expr = true, replace_keycodes = false
 })
 vim.g.copilot_no_tab_map = true
