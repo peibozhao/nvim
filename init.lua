@@ -348,7 +348,7 @@ vim.keymap.set('i', '<S-TAB>', function()
 end, { expr = true, silent = true, buffer = true })
 
 vim.keymap.set('i', '<C-G>', 'copilot#Accept("\\<CR>")', {
-  expr = true, replace_keycodes = false
+  expr = true, replace_keycodes = false, silent = true
 })
 vim.g.copilot_no_tab_map = true
 
