@@ -261,11 +261,11 @@ vim.g.mkdp_auto_close = 0
 vim.g.vim_markdown_folding_disabled = 1
 vim.api.nvim_set_hl(0, 'markdownH1', { cterm = { bold = true }, fg = 'lightred' , ctermfg = 'lightred' })
 vim.api.nvim_set_hl(0, 'markdownH2', { cterm = { bold = true }, fg = 'yellow', ctermfg = 'yellow' })
-vim.api.nvim_set_hl(0, 'markdownH3', { cterm = { bold = true }, fg = 'green', ctermfg = 'green' })
+vim.api.nvim_set_hl(0, 'markdownH3', { cterm = { bold = true }, fg = 'lightgreen', ctermfg = 'lightgreen' })
 
 vim.api.nvim_set_hl(0, 'htmlH1', { cterm = { bold = true }, fg = 'lightred', ctermfg = 'lightred' })
 vim.api.nvim_set_hl(0, 'htmlH2', { cterm = { bold = true }, fg = 'yellow', ctermfg = 'yellow' })
-vim.api.nvim_set_hl(0, 'htmlH3', { cterm = { bold = true }, fg = 'green', ctermfg = 'green' })
+vim.api.nvim_set_hl(0, 'htmlH3', { cterm = { bold = true }, fg = 'lightgreen', ctermfg = 'lightgreen' })
 
 
 -- PLUGIN gitgutter
