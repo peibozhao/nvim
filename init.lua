@@ -179,7 +179,7 @@ vim.keymap.set('i', '<CR>', function()
   else
     return '<C-G>u<CR><C-R>=coc#on_enter()<CR>'
   end
-end, { expr = true, silent = true, buffer = true })
+end, { expr = true, silent = true })
 
 vim.keymap.set('n', '[c', '<Plug>(coc-diagnostic-prev)', { silent = true })
 vim.keymap.set('n', ']c', '<Plug>(coc-diagnostic-next)', { silent = true })
@@ -337,7 +337,7 @@ vim.keymap.set('i', '<TAB>', function()
   else
     return vim.fn['coc#refresh']()
   end
-end, { expr = true, silent = true, buffer = true })
+end, { expr = true, silent = true })
 
 vim.keymap.set('i', '<S-TAB>', function()
   if vim.fn['coc#pum#visible']() == 1 then
@@ -345,7 +345,7 @@ vim.keymap.set('i', '<S-TAB>', function()
   else
     return '<C-H>'
   end
-end, { expr = true, silent = true, buffer = true })
+end, { expr = true, silent = true })
 
 vim.keymap.set('i', '<C-G>', 'copilot#Accept("\\<CR>")', {
   expr = true, replace_keycodes = false, silent = true
