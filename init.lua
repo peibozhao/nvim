@@ -18,7 +18,7 @@ vim.opt.cursorline = true
 vim.opt.fillchars = { vert = '│' }
 vim.opt.diffopt:append('vertical')
 
-vim.cmd('colorscheme evening')
+vim.cmd.colorscheme('evening')
 
 -- makefile保留tab
 vim.api.nvim_create_autocmd('FileType', {
@@ -68,7 +68,7 @@ vim.api.nvim_set_keymap('c', '<C-N>', '<Down>', { noremap = true })
 vim.api.nvim_set_keymap('c', '<C-T>', 'sp term://bash<CR>', { noremap = true })
 vim.keymap.set('t', '<Esc>', '<C-\\><C-N>', { noremap = true }) -- esc切换回normal模式
 
--- 为 .hcc 文件设置 filetype 为 cpp
+-- 为hcc文件设置filetype为cpp
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   pattern = '*.hcc',
   callback = function()
@@ -121,7 +121,7 @@ vim.g.NERDDefaultAlign = 'left' -- 受formatoptions影响
 -- PLUGIN LeaderF
 -- 与mark.vim冲突
 -- nnoremap <leader>mru :LeaderfMru<CR>
-vim.keymap.set('n', '<leader>lf', ':LeaderfFunction<CR>', { noremap = true, silent = true })
+-- vim.keymap.set('n', '<leader>lf', ':LeaderfFunction<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-B>', ':LeaderfBuffer<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-P>', ':LeaderfFile<CR>', { noremap = true, silent = true })
 
@@ -189,8 +189,8 @@ vim.keymap.set('n', '<leader>gt', '<Plug>(coc-type-definition)', { silent = true
 vim.keymap.set('n', '<leader>gi', '<Plug>(coc-implementation)', { silent = true })
 vim.keymap.set('n', '<leader>gr', '<Plug>(coc-references)', { silent = true })
 vim.keymap.set('n', '<leader>to', ':CocOutline<CR>', { silent = true })
-
 vim.keymap.set('n', '<leader>rn', '<Plug>(coc-rename)', { silent = true })
+
 vim.keymap.set('n', 'K', function()
   local filetype = vim.bo.filetype
   if filetype == 'vim' or filetype == 'help' then
@@ -246,8 +246,8 @@ vim.keymap.set('v', '<C-U>', function()
   end
 end, { expr = true, silent = true, nowait = true })
 
-vim.keymap.set('n', '<leader>cn', ':<C-U>CocNext<CR>', { silent = true })
-vim.keymap.set('n', '<leader>cp', ':<C-U>CocPrev<CR>', { silent = true })
+-- vim.keymap.set('n', '<leader>cn', ':<C-U>CocNext<CR>', { silent = true })
+-- vim.keymap.set('n', '<leader>cp', ':<C-U>CocPrev<CR>', { silent = true })
 
 vim.opt.statusline:append('%{coc#status()}%{get(b:,"coc_current_function","")}')
 
@@ -291,33 +291,28 @@ vim.fn['defx#custom#option']('_', {
   resume = 1,
 })
 
-local function defx_toggle_tree()
-  if vim.fn['defx#is_directory']() then
-    return vim.fn['defx#do_action']('open_or_close_tree')
-  else
-    return vim.fn['defx#do_action']('multi', { 'drop' })
-  end
-end
-
-local function defx_mappings()
-  local opts = { silent = true, expr = true, buffer = true }
-
-  vim.keymap.set('n', 'o', defx_toggle_tree, opts)
-  vim.keymap.set('n', 's', 'defx#do_action("drop", "vsplit")', opts)
-  vim.keymap.set('n', 'S', 'defx#do_action("drop", "split")', opts)
-  vim.keymap.set('n', 'm', 'defx#do_action("rename")', opts)
-  vim.keymap.set('n', 'd', 'defx#do_action("remove")', opts)
-  vim.keymap.set('n', 'c', 'defx#do_action("new_file")', opts)
-  vim.keymap.set('n', 'C', 'defx#do_action("new_directory")', opts)
-  vim.keymap.set('n', 'yy', 'defx#do_action("yank_path")', opts)
-  vim.keymap.set('n', 'Y', 'defx#do_action("copy")', opts)
-  vim.keymap.set('n', 'p', 'defx#do_action("paste")', opts)
-  vim.keymap.set('n', 'r', 'defx#do_action("redraw")', opts)
-end
-
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'defx',
-  callback = defx_mappings,
+  callback = function()
+    local opts = { silent = true, expr = true, buffer = true }
+    vim.keymap.set('n', 'o', function()
+      if vim.fn['defx#is_directory']() then
+        return vim.fn['defx#do_action']('open_or_close_tree')
+      else
+        return vim.fn['defx#do_action']('multi', { 'drop' })
+      end
+    end, opts)
+    vim.keymap.set('n', 's', 'defx#do_action("drop", "vsplit")', opts)
+    vim.keymap.set('n', 'S', 'defx#do_action("drop", "split")', opts)
+    vim.keymap.set('n', 'm', 'defx#do_action("rename")', opts)
+    vim.keymap.set('n', 'd', 'defx#do_action("remove")', opts)
+    vim.keymap.set('n', 'c', 'defx#do_action("new_file")', opts)
+    vim.keymap.set('n', 'C', 'defx#do_action("new_directory")', opts)
+    vim.keymap.set('n', 'yy', 'defx#do_action("yank_path")', opts)
+    vim.keymap.set('n', 'Y', 'defx#do_action("copy")', opts)
+    vim.keymap.set('n', 'p', 'defx#do_action("paste")', opts)
+    vim.keymap.set('n', 'r', 'defx#do_action("redraw")', opts)
+  end
 })
 
 local function check_back_space()
