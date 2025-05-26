@@ -23,9 +23,6 @@
 [submodule "vim-airline"]
 	path = pack/package/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline
-[submodule "tagbar"]
-	path = pack/package/start/tagbar
-	url = https://github.com/majutsushi/tagbar
 [submodule "vim-maktaba"]
 	path = pack/package/start/vim-maktaba
 	url = https://github.com/google/vim-maktaba
