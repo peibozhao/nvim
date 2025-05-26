@@ -17,6 +17,8 @@ vim.opt.autowrite = true
 vim.opt.cursorline = true
 vim.opt.fillchars = { vert = '│' }
 vim.opt.diffopt:append('vertical')
+vim.opt.completeopt:append('menuone')
+vim.opt.completeopt:append('noinsert')
 
 vim.cmd.colorscheme('evening')
 
@@ -253,6 +255,33 @@ vim.opt.statusline:append('%{coc#status()}%{get(b:,"coc_current_function","")}')
 
 vim.g.coc_snippet_next = '<C-F>'
 
+local function check_back_space()
+  local col = vim.fn.col('.') - 1
+  if col == 0 then
+    return true
+  end
+  local line = vim.fn.getline('.')
+  return line:sub(col, col):match('%s') ~= nil
+end
+
+vim.keymap.set('i', '<TAB>', function()
+  if vim.fn['coc#pum#visible']() == 1 then
+    return vim.fn['coc#pum#next'](1)
+  elseif check_back_space() then
+    return '<TAB>'
+  else
+    return vim.fn['coc#refresh']()
+  end
+end, { expr = true, silent = true })
+
+vim.keymap.set('i', '<S-TAB>', function()
+  if vim.fn['coc#pum#visible']() == 1 then
+    return vim.fn['coc#pum#prev'](1)
+  else
+    return '<C-H>'
+  end
+end, { expr = true, silent = true })
+
 
 -- PLUGIN markdown
 vim.g.vim_markdown_preview_browser='firefox'
@@ -315,38 +344,24 @@ vim.api.nvim_create_autocmd('FileType', {
   end
 })
 
-local function check_back_space()
-  local col = vim.fn.col('.') - 1
-  if col == 0 then
-    return true
-  end
-  local line = vim.fn.getline('.')
-  return line:sub(col, col):match('%s') ~= nil
-end
-
-vim.keymap.set('i', '<TAB>', function()
-  if vim.fn['coc#pum#visible']() == 1 then
-    return vim.fn['coc#pum#next'](1)
-  elseif check_back_space() then
-    return '<TAB>'
-  else
-    return vim.fn['coc#refresh']()
-  end
-end, { expr = true, silent = true })
-
-vim.keymap.set('i', '<S-TAB>', function()
-  if vim.fn['coc#pum#visible']() == 1 then
-    return vim.fn['coc#pum#prev'](1)
-  else
-    return '<C-H>'
-  end
-end, { expr = true, silent = true })
-
 vim.keymap.set('i', '<C-G>', 'copilot#Accept("\\<CR>")', {
   expr = true, replace_keycodes = false, silent = true
 })
 vim.g.copilot_no_tab_map = true
 
+-- vim.api.nvim_create_autocmd('LspAttach', {
+--   callback = function(args)
+--     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+--     if client:supports_method('textDocument/completion') then
+--       -- Optional: trigger autocompletion on EVERY keypress. May be slow!
+--       -- local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
+--       -- client.server_capabilities.completionProvider.triggerCharacters = chars
+--       vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+--     end
+--   end,
+-- })
+
+-- vim.lsp.enable('clangd')
 
 -------------------------------------------------------------------
 vim.cmd('source ' .. vim.fn.stdpath('config') .. '/fixup.vim')
