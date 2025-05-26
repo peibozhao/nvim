@@ -1,7 +1,3 @@
-[submodule "coc.nvim"]
-	path = pack/package/start/coc.nvim
-	url = https://github.com/neoclide/coc.nvim
-	branch = release
 [submodule "a.vim"]
 	path = pack/package/start/a.vim
 	url = https://github.com/vim-scripts/a.vim

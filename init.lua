@@ -90,8 +90,15 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 })
 
 
+-- PLUGIN copilot
+vim.g.copilot_no_tab_map = true
+vim.keymap.set('i', '<C-F>', function()
+  return vim.fn['copilot#Accept']()
+end, { expr = true, replace_keycodes = false, silent = false })
+
+
 -- PLUGIN vim-snippet
-vim.g.UltiSnipsExpandTrigger = '<C-F>'
+vim.g.UltiSnipsExpandTrigger = '<C-G>'
 -- vim.g.UltiSnipsJumpForwardTrigger = '<C-N>'
 -- vim.g.UltiSnipsJumpBackwardTrigger = '<C-B>'
 
@@ -160,127 +167,9 @@ vim.g.airline_symbols['whitespace'] = ''
 vim.g.airline_section_z = '%#__accent_bold#%{g:airline_symbols.linenr}%l%#__restore__# / %#__accent_bold#%{g:airline_symbols.colnr}%v%#__restore__#'
 vim.g['airline#extensions#tagbar#enabled'] = 1
 vim.g['airline#extensions#tagbar#flags'] = 'p'
-vim.g['airline#extensions#coc#enabled'] = 0
 -- trailing whitespace
 vim.g['airline#extensions#whitespace#enabled'] = 1
 vim.g['airline#extensions#whitespace#trailing_format'] = '[%s] WS'
-
-
--- PLUGIN coc
-vim.opt.hidden = true
-vim.opt.backup = false
-vim.opt.writebackup = false
-vim.opt.cmdheight = 2
-vim.opt.updatetime = 300
-vim.opt.shortmess:append('c')
-vim.opt.signcolumn = 'yes'
-
-vim.keymap.set('i', '<CR>', function()
-  if vim.fn['coc#pum#visible']() == 1 then
-    return vim.fn['coc#pum#confirm']()
-  else
-    return '<C-G>u<CR><C-R>=coc#on_enter()<CR>'
-  end
-end, { expr = true, silent = true })
-
-vim.keymap.set('n', '[c', '<Plug>(coc-diagnostic-prev)', { silent = true })
-vim.keymap.set('n', ']c', '<Plug>(coc-diagnostic-next)', { silent = true })
-
-vim.keymap.set('n', '<leader>gd', '<Plug>(coc-definition)', { silent = true })
-vim.keymap.set('n', '<leader>gt', '<Plug>(coc-type-definition)', { silent = true })
-vim.keymap.set('n', '<leader>gi', '<Plug>(coc-implementation)', { silent = true })
-vim.keymap.set('n', '<leader>gr', '<Plug>(coc-references)', { silent = true })
-vim.keymap.set('n', '<leader>to', ':CocOutline<CR>', { silent = true })
-vim.keymap.set('n', '<leader>rn', '<Plug>(coc-rename)', { silent = true })
-
-vim.keymap.set('n', 'K', function()
-  local filetype = vim.bo.filetype
-  if filetype == 'vim' or filetype == 'help' then
-    vim.cmd('help ' .. vim.fn.expand('<cword>'))
-  else
-    vim.fn.CocAction('doHover')
-  end
-end, { silent = true })
-
--- autocmd CursorHold * silent call CocActionAsync('highlight')
-
--- coc#float#has_scroll好像一直返回0, 看着是自己过滤了自动补全的float窗口
-vim.keymap.set('n', '<C-D>', function()
-  if vim.fn['coc#float#has_scroll']() == 0 then
-    return '<C-D>'
-  else
-    vim.fn['coc#float#scroll'](1)
-  end
-end, { expr = true, silent = true, nowait = true })
-vim.keymap.set('n', '<C-U>', function()
-  if vim.fn['coc#float#has_scroll']() == 0 then
-    return '<C-U>'
-  else
-    vim.fn['coc#float#scroll'](0)
-  end
-end, { expr = true, silent = true, nowait = true })
-vim.keymap.set('i', '<C-D>', function()
-  if vim.fn['coc#float#has_scroll']() == 1 then
-    vim.fn['coc#float#scroll'](1)
-  else
-    return '<Right>'
-  end
-end, { expr = true, silent = true, nowait = true })
-vim.keymap.set('i', '<C-U>', function()
-  if vim.fn['coc#float#has_scroll']() == 1 then
-    vim.fn['coc#float#scroll'](0)
-  else
-    return '<Left>'
-  end
-end, { expr = true, silent = true, nowait = true })
-vim.keymap.set('v', '<C-D>', function()
-  if vim.fn['coc#float#has_scroll']() == 0 then
-    return '<C-D>'
-  else
-    vim.fn['coc#float#scroll'](1)
-  end
-end, { expr = true, silent = true, nowait = true })
-vim.keymap.set('v', '<C-U>', function()
-  if vim.fn['coc#float#has_scroll']() == 0 then
-    return '<C-U>'
-  else
-    vim.fn['coc#float#scroll'](0)
-  end
-end, { expr = true, silent = true, nowait = true })
-
--- vim.keymap.set('n', '<leader>cn', ':<C-U>CocNext<CR>', { silent = true })
--- vim.keymap.set('n', '<leader>cp', ':<C-U>CocPrev<CR>', { silent = true })
-
-vim.opt.statusline:append('%{coc#status()}%{get(b:,"coc_current_function","")}')
-
-vim.g.coc_snippet_next = '<C-F>'
-
-local function check_back_space()
-  local col = vim.fn.col('.') - 1
-  if col == 0 then
-    return true
-  end
-  local line = vim.fn.getline('.')
-  return line:sub(col, col):match('%s') ~= nil
-end
-
-vim.keymap.set('i', '<TAB>', function()
-  if vim.fn['coc#pum#visible']() == 1 then
-    return vim.fn['coc#pum#next'](1)
-  elseif check_back_space() then
-    return '<TAB>'
-  else
-    return vim.fn['coc#refresh']()
-  end
-end, { expr = true, silent = true })
-
-vim.keymap.set('i', '<S-TAB>', function()
-  if vim.fn['coc#pum#visible']() == 1 then
-    return vim.fn['coc#pum#prev'](1)
-  else
-    return '<C-H>'
-  end
-end, { expr = true, silent = true })
 
 
 -- PLUGIN markdown
@@ -344,24 +233,56 @@ vim.api.nvim_create_autocmd('FileType', {
   end
 })
 
-vim.keymap.set('i', '<C-G>', 'copilot#Accept("\\<CR>")', {
-  expr = true, replace_keycodes = false, silent = true
+
+-- PLUGIN nvim-lspconfig
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+    if client:supports_method('textDocument/completion') then
+      local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
+      client.server_capabilities.completionProvider.triggerCharacters = chars
+      vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+    end
+  end,
 })
-vim.g.copilot_no_tab_map = true
 
--- vim.api.nvim_create_autocmd('LspAttach', {
---   callback = function(args)
---     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
---     if client:supports_method('textDocument/completion') then
---       -- Optional: trigger autocompletion on EVERY keypress. May be slow!
---       -- local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
---       -- client.server_capabilities.completionProvider.triggerCharacters = chars
---       vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
---     end
---   end,
--- })
+-- language server for c/c++
+vim.lsp.enable('clangd')
 
--- vim.lsp.enable('clangd')
+-- language server for python
+-- python -m pip install pyright
+vim.lsp.enable('pyright')
+
+--language server for bash
+-- npm i -g bash-language-server
+vim.lsp.enable('bashls')
+
+-- language server for vue
+-- npm install -g @vue/language-server
+-- support typescript in vue
+vim.lsp.config('vue_ls', {
+  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+  init_options = { vue = { hybridMode = false, }, },
+})
+-- vim.lsp.config['ts_ls'] = {}
+vim.lsp.enable('vue_ls')
+
+vim.keymap.set('i', '<TAB>', function()
+  if vim.fn.pumvisible() == 1 then
+    return '<C-N>'
+  else
+    return '<TAB>'
+  end
+end, { expr = true, silent = true })
+
+vim.keymap.set('i', '<S-TAB>', function()
+  if vim.fn.pumvisible() == 1 then
+    return '<C-P>'
+  else
+    return '<S-TAB>'
+  end
+end, { expr = true, silent = true })
+
 
 -------------------------------------------------------------------
 vim.cmd('source ' .. vim.fn.stdpath('config') .. '/fixup.vim')
