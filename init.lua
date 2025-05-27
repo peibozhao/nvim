@@ -347,6 +347,7 @@ vim.keymap.set('i', '<CR>', function()
   end
 end, { expr = true, silent = true })
 
+vim.lsp.log.set_level(vim.log.levels.INFO)
 
 -------------------------------------------------------------------
 vim.cmd('source ' .. vim.fn.stdpath('config') .. '/fixup.vim')
