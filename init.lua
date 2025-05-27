@@ -267,19 +267,28 @@ vim.lsp.config('vue_ls', {
 -- vim.lsp.config['ts_ls'] = {}
 vim.lsp.enable('vue_ls')
 
-vim.keymap.set('i', '<TAB>', function()
-  if vim.fn.pumvisible() == 1 then
-    return '<C-N>'
-  else
-    return '<TAB>'
-  end
-end, { expr = true, silent = true })
+-- Break snippet keymap
+-- vim.keymap.set('i', '<TAB>', function()
+--   if vim.fn.pumvisible() == 1 then
+--     return '<C-N>'
+--   else
+--     return '<TAB>'
+--   end
+-- end, { expr = true, silent = true })
 
-vim.keymap.set('i', '<S-TAB>', function()
+-- vim.keymap.set('i', '<S-TAB>', function()
+--   if vim.fn.pumvisible() == 1 then
+--     return '<C-P>'
+--   else
+--     return '<S-TAB>'
+--   end
+-- end, { expr = true, silent = true })
+
+vim.keymap.set('i', '<CR>', function()
   if vim.fn.pumvisible() == 1 then
-    return '<C-P>'
+    return '<C-Y>'
   else
-    return '<S-TAB>'
+    return '<CR>'
   end
 end, { expr = true, silent = true })
 
