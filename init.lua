@@ -246,26 +246,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
--- language server for c/c++
-vim.lsp.enable('clangd')
-
--- language server for python
--- python -m pip install pyright
-vim.lsp.enable('pyright')
-
---language server for bash
--- npm i -g bash-language-server
-vim.lsp.enable('bashls')
-
--- language server for vue
--- npm install -g @vue/language-server
 -- support typescript in vue
 vim.lsp.config('vue_ls', {
   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
   init_options = { vue = { hybridMode = false, }, },
 })
--- vim.lsp.config['ts_ls'] = {}
-vim.lsp.enable('vue_ls')
 
 -- Break snippet keymap
 -- vim.keymap.set('i', '<TAB>', function()
@@ -285,8 +270,6 @@ vim.lsp.enable('vue_ls')
 -- end, { expr = true, silent = true })
 
 
--- language server for lua
--- Install: https://github.com/LuaLS/lua-language-server/releases
 -- For vim script, copy from nvim-lspconfig suggestion
 vim.lsp.config('lua_ls', {
   on_init = function(client)
@@ -337,17 +320,24 @@ vim.lsp.config('lua_ls', {
   }
 })
 
-vim.lsp.enable('lua_ls')
-
-vim.keymap.set('i', '<CR>', function()
-  if vim.fn.pumvisible() == 1 then
-    return '<C-Y>'
-  else
-    return '<CR>'
-  end
-end, { expr = true, silent = true })
+-- Both accepting the current string and accepting auto-completion (including snippets) are used
+-- vim.keymap.set('i', '<CR>', function()
+--   if vim.fn.pumvisible() == 1 then
+--     return '<C-Y>'
+--   else
+--     return '<CR>'
+--   end
+-- end, { expr = true, silent = true })
 
 vim.lsp.log.set_level(vim.log.levels.INFO)
+
+-- pyright: python -m pip install pyright
+-- bashls: npm i -g bash-language-server
+-- lus_ls: https://github.com/LuaLS/lua-language-server/releases
+-- vue_ls: npm install -g @vue/language-server
+-- dockerls: npm install -g dockerfile-language-server-nodejs
+-- neocmake: cargo install neocmakelsp
+vim.lsp.enable({'clangd', 'pyright', 'bashls', 'lua_ls', 'vue_ls', 'dockerls', 'neocmake'})
 
 -------------------------------------------------------------------
 vim.cmd('source ' .. vim.fn.stdpath('config') .. '/fixup.vim')
