@@ -247,10 +247,55 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 -- support typescript in vue
-vim.lsp.config("vue_ls", {
-  filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-  init_options = { vue = { hybridMode = false, }, },
-})
+-- local vue_language_server_path = ''
+local vue_plugin = {
+  name = '@vue/typescript-plugin',
+  -- location = vue_language_server_path,
+  languages = { 'vue' },
+  configNamespace = 'typescript',
+}
+local vtsls_config = {
+  settings = {
+    vtsls = {
+      tsserver = {
+        globalPlugins = {
+          vue_plugin,
+        },
+      },
+    },
+  },
+  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+}
+
+local vue_ls_config = {
+  on_init = function(client)
+    client.handlers['tsserver/request'] = function(_, result, context)
+      local clients = vim.lsp.get_clients({ bufnr = context.bufnr, name = 'vtsls' })
+      if #clients == 0 then
+        vim.notify('Could not find `vtsls` lsp client, `vue_ls` would not work without it.', vim.log.levels.ERROR)
+        return
+      end
+      local ts_client = clients[1]
+
+      local param = unpack(result)
+      local id, command, payload = unpack(param)
+      ts_client:exec_cmd({
+        title = 'vue_request_forward', -- You can give title anything as it's used to represent a command in the UI, `:h Client:exec_cmd`
+        command = 'typescript.tsserverRequest',
+        arguments = {
+          command,
+          payload,
+        },
+      }, { bufnr = context.bufnr }, function(_, r)
+          local response_data = { { id, r.body } }
+          ---@diagnostic disable-next-line: param-type-mismatch
+          client:notify('tsserver/response', response_data)
+        end)
+    end
+  end,
+}
+vim.lsp.config('vtsls', vtsls_config)
+vim.lsp.config('vue_ls', vue_ls_config)
 
 -- Break snippet keymap
 -- vim.keymap.set("i", "<TAB>", function()
@@ -334,10 +379,10 @@ vim.lsp.log.set_level(vim.log.levels.INFO)
 -- pyright: python -m pip install pyright
 -- bashls: npm i -g bash-language-server
 -- lus_ls: https://github.com/LuaLS/lua-language-server/releases
--- vue_ls: npm install -g @vue/language-server
+-- vue_ls: npm install -g @vue/language-server @vue/typescript-plugin @vtsls/language-server
 -- dockerls: npm install -g dockerfile-language-server-nodejs
 -- neocmake: cargo install neocmakelsp
-vim.lsp.enable({"clangd", "pyright", "bashls", "lua_ls", "vue_ls", "dockerls", "neocmake"})
+vim.lsp.enable({"clangd", "pyright", "bashls", "lua_ls", "vtsls", "vue_ls", "dockerls", "neocmake"})
 
 -------------------------------------------------------------------
 vim.cmd("source " .. vim.fn.stdpath("config") .. "/fixup.vim")
