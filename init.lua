@@ -240,8 +240,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
     if client:supports_method("textDocument/completion") then
       local chars = {};
-      for i = 65, 90 do table.insert(chars, string.char(i)) end
-      for i = 97, 122 do table.insert(chars, string.char(i)) end
+      local remove_chars = {'{', '}'};
+      for i = 32, 126 do table.insert(chars, string.char(i)) end
+      for i = #chars, 1, -1 do
+        for _, value in ipairs(remove_chars) do
+          if chars[i] == value then table.remove(chars, i) break end
+        end
+      end
       client.server_capabilities.completionProvider.triggerCharacters = chars
       vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
     end
@@ -267,28 +272,29 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 
 -- For vim script, copy from nvim-lspconfig suggestion
-vim.lsp.config("lua_ls", {
+vim.lsp.config('lua_ls', {
+  cmd = {'lua-language-server', '--logpath=/tmp/'},
   on_init = function(client)
     if client.workspace_folders then
       local path = client.workspace_folders[1].name
       if
-        path ~= vim.fn.stdpath("config")
-        and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+        path ~= vim.fn.stdpath('config')
+        and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
       then
         return
       end
     end
 
-    client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
       runtime = {
-        -- Tell the language server which version of Lua you"re using (most
+        -- Tell the language server which version of Lua you're using (most
         -- likely LuaJIT in the case of Neovim)
-        version = "LuaJIT",
+        version = 'LuaJIT',
         -- Tell the language server how to find Lua modules same way as Neovim
         -- (see `:h lua-module-load`)
         path = {
-          "lua/?.lua",
-          "lua/?/init.lua",
+          'lua/?.lua',
+          'lua/?/init.lua',
         },
       },
       -- Make the server aware of Neovim runtime files
@@ -296,18 +302,18 @@ vim.lsp.config("lua_ls", {
         checkThirdParty = false,
         library = {
           vim.env.VIMRUNTIME
-        -- Depending on the usage, you might want to add additional paths
-        -- here.
-        -- "${3rd}/luv/library"
-        -- "${3rd}/busted/library"
+          -- Depending on the usage, you might want to add additional paths
+          -- here.
+          -- '${3rd}/luv/library'
+          -- '${3rd}/busted/library'
         }
-      -- Or pull in all of "runtimepath".
-      -- NOTE: this is a lot slower and will cause issues when working on
-      -- your own configuration.
-      -- See https://github.com/neovim/nvim-lspconfig/issues/3189
-      -- library = {
-      --   vim.api.nvim_get_runtime_file("", true),
-      -- }
+        -- Or pull in all of 'runtimepath'.
+        -- NOTE: this is a lot slower and will cause issues when working on
+        -- your own configuration.
+        -- See https://github.com/neovim/nvim-lspconfig/issues/3189
+        -- library = {
+        --   vim.api.nvim_get_runtime_file('', true),
+        -- }
       }
     })
   end,
@@ -329,7 +335,7 @@ vim.lsp.log.set_level(vim.log.levels.INFO)
 
 -- pyright: python -m pip install pyright
 -- bashls: npm i -g bash-language-server
--- lus_ls: https://github.com/LuaLS/lua-language-server/releases
+-- lua_ls: https://github.com/LuaLS/lua-language-server/releases
 -- ts_ls: npm install -g typescript typescript-language-server
 -- cssls: npm i -g vscode-langservers-extracted
 -- cssmodules_ls: npm install -g cssmodules-language-server
