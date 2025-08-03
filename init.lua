@@ -240,7 +240,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
     if client:supports_method("textDocument/completion") then
       local chars = {};
-      local remove_chars = {'{', '}'};
+      local remove_chars = {'{', '}', ')'};
       for i = 32, 126 do table.insert(chars, string.char(i)) end
       for i = #chars, 1, -1 do
         for _, value in ipairs(remove_chars) do
