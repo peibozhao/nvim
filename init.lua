@@ -341,7 +341,8 @@ vim.lsp.log.set_level(vim.log.levels.INFO)
 -- cssmodules_ls: npm install -g cssmodules-language-server
 -- dockerls: npm install -g dockerfile-language-server-nodejs
 -- neocmake: cargo install neocmakelsp
-vim.lsp.enable({"clangd", "pyright", "bashls", "lua_ls", "dockerls", "neocmake", "ts_ls", "cssls", "cssmodules_ls"})
+-- buf_ls(protobuf): npm install @bufbuild/buf
+vim.lsp.enable({"clangd", "pyright", "bashls", "lua_ls", "dockerls", "neocmake", "ts_ls", "cssls", "cssmodules_ls", "buf_ls"})
 
 -------------------------------------------------------------------
 vim.cmd("source " .. vim.fn.stdpath("config") .. "/fixup.vim")
