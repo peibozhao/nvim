@@ -133,6 +133,7 @@ vim.g.NERDDefaultAlign = "left" -- 受formatoptions影响
 -- vim.keymap.set("n", "<leader>lf", ":LeaderfFunction<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-B>", ":LeaderfBuffer<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-P>", ":LeaderfFile<CR>", { noremap = true, silent = true })
+vim.g.Lf_UseCache = 0
 
 
 -- PLUGIN Ack
