@@ -10,9 +10,6 @@
 [submodule "LeaderF"]
 	path = pack/package/start/LeaderF
 	url = https://github.com/Yggdroot/LeaderF
-[submodule "DoxygenToolkit.vim"]
-	path = pack/package/start/DoxygenToolkit.vim
-	url = https://github.com/vim-scripts/DoxygenToolkit.vim
 [submodule "nerdcommenter"]
 	path = pack/package/start/nerdcommenter
 	url = https://github.com/scrooloose/nerdcommenter
@@ -58,3 +55,9 @@
 [submodule "nvim-lspconfig"]
 	path = pack/package/start/nvim-lspconfig
 	url = https://github.com/neovim/nvim-lspconfig
+[submodule "pack/package/start/neogen"]
+	path = pack/package/start/neogen
+	url = https://github.com/danymat/neogen
+[submodule "pack/package/start/nvim-treesitter"]
+	path = pack/package/start/nvim-treesitter
+	url = https://github.com/nvim-treesitter/nvim-treesitter

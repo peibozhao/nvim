@@ -1,28 +1,41 @@
-vim.opt.syntax = "on"
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.smartindent = true
-vim.opt.cindent = true
-vim.opt.cinoptions = "g0h2"  -- no use google style
-vim.opt.formatoptions = "ql"
-vim.opt.tabstop = 2  -- tab宽度
-vim.opt.shiftwidth = 2
-vim.opt.softtabstop = 2
-vim.opt.expandtab = true  -- tab转空格
-vim.opt.backspace = { "indent", "eol", "start" }
-vim.opt.encoding = "utf-8"
+vim.opt.syntax = "on"  -- 开启语法高亮
+vim.opt.number = true  -- 显示绝对行号
+vim.opt.relativenumber = true  -- 显示相对行号（方便跳转）
+
+vim.opt.smartindent = true  -- 智能缩进（简单规则）
+vim.opt.cindent = true  -- 启用C语言风格缩进（更严格）
+vim.opt.cinoptions = "g0h2"  -- C缩进细节配置（这里自定义，不用Google风格）
+
+vim.opt.formatoptions = "ql"  -- 自动格式化选项（q:允许gq格式化，l:不自动换行）
+
+vim.opt.tabstop = 2  -- 一个Tab显示为2个空格
+vim.opt.shiftwidth = 2  -- 自动缩进宽度为2
+vim.opt.softtabstop = 2  -- 按Tab键时插入2个空格
+vim.opt.expandtab = true  -- 将Tab转换为空格
+
+vim.opt.backspace = { "indent", "eol", "start" }  -- 允许退格删除缩进、换行符和插入前内容
+
+vim.opt.encoding = "utf-8"  -- 内部编码为UTF-8
+-- 打开文件时尝试的编码列表（按顺序）
 vim.opt.fileencodings = { "utf-8", "ucs-bom", "shift-jis", "gb18030", "gbk", "gb2312", "cp936" }
-vim.opt.compatible = false  -- 关闭兼容模式
-vim.opt.autowrite = true
-vim.opt.cursorline = true
-vim.opt.fillchars = { vert = "│" }
-vim.opt.diffopt:append("vertical")
-vim.opt.completeopt:append("menuone")
-vim.opt.completeopt:append("noinsert")
+
+vim.opt.compatible = false  -- 关闭vi兼容模式, 使用vim/neovim增强功能
+
+vim.opt.autowrite = true  -- 切换buffer时自动保存
+
+vim.opt.cursorline = true  -- 高亮当前行
+
+vim.opt.fillchars = { vert = "│" }  -- 垂直分割线使用美化字符
+
+vim.opt.diffopt:append("vertical")  -- diff模式下使用垂直分屏
+
+vim.opt.completeopt:append("menuone")  -- 补全时即使只有一个也显示菜单
+vim.opt.completeopt:append("noinsert")  -- 补全不自动插入，需手动选择
+
 
 vim.cmd.colorscheme("evening")
 
--- makefile保留tab
+-- Makefile保留tab
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "make",
   callback = function()
@@ -30,18 +43,16 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- 保存时自动删除行最后的空格
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*",
+    command = [[%s/\s\+$//e]],
+})
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = {"cpp", "c"},
   callback = function()
     vim.opt.colorcolumn = "80"
-  end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "defx",
-  callback = function()
-    vim.wo.number = false
-    vim.wo.relativenumber = false
   end,
 })
 
@@ -55,11 +66,11 @@ vim.api.nvim_set_hl(0, "ColorColumn", { bg = "darkgray", ctermbg = "darkgray" })
 vim.fn.matchadd("ExtraWhitespace", [[\s\+$\| \+\ze\t\|\t]])
 vim.api.nvim_set_hl(0, "ExtraWhitespace", { bg = "red", ctermbg = "red" })
 
+-- 修改文件对比时的配色
 -- vim.api.nvim_set_hl(0, "DiffAdd", { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
 -- vim.api.nvim_set_hl(0, "DiffDelete", { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
 -- vim.api.nvim_set_hl(0, "DiffChange", { fg = 10, bg = 17, ctermfg = 10, ctermbg = 17 })
 -- vim.api.nvim_set_hl(0, "DiffText", { fg = 10, bg = 88, ctermfg = 10, ctermbg = 88 })
-
 
 -- terimial
 vim.api.nvim_set_keymap("c", "<C-A>", "<Home>", { noremap = true })
@@ -89,19 +100,17 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
-
 -- PLUGIN copilot
 vim.g.copilot_no_tab_map = true
 vim.keymap.set("i", "<C-F>", function()
   return vim.fn["copilot#Accept"]()
 end, { expr = true, replace_keycodes = false, silent = false })
 
-
 -- PLUGIN vim-snippet
+-- 自动生成代码片段
 vim.g.UltiSnipsExpandTrigger = "<C-G>"
 -- vim.g.UltiSnipsJumpForwardTrigger = "<C-N>"
 -- vim.g.UltiSnipsJumpBackwardTrigger = "<C-B>"
-
 
 -- PLUGIN a.vim
 vim.g.alternateExtensions_h="c,cpp,cxx,cc,CC,hcc"
@@ -110,22 +119,14 @@ vim.g.alternateExtensions_hcc="h,hpp"
 -- vim.g.alternateSearchPath="sfr:../source,sfr:../src,sfr:../include,sfr:../inc,reg:/include/src//,reg:/src/include//,reg:/inc/src//,reg:/src/inc//"
 vim.g.alternateNoDefaultAlternate=1
 
-
 -- PLUGIN vim-session
 vim.g.session_autosave = "no"
 vim.g.session_autoload = "no"
 vim.g.session_directory = "~/.config/nvim/sessions/"
 
-
--- PLUGIN Doxygen
--- let g:DoxygenToolkit_commentType = "C++"
-vim.g.DoxygenToolkit_anthorName = "peibozhao, peibozhao@163.com"
-
-
 -- PLUGIN nerdcommenter
 vim.g.NERDSpaceDelims = 1
 vim.g.NERDDefaultAlign = "left" -- 受formatoptions影响
-
 
 -- PLUGIN LeaderF
 -- 与mark.vim冲突
@@ -134,7 +135,6 @@ vim.g.NERDDefaultAlign = "left" -- 受formatoptions影响
 vim.keymap.set("n", "<C-B>", ":LeaderfBuffer<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-P>", ":LeaderfFile<CR>", { noremap = true, silent = true })
 vim.g.Lf_UseCache = 0
-
 
 -- PLUGIN Ack
 vim.g.ack_mappings = {
@@ -149,16 +149,12 @@ vim.g.ack_mappings = {
   gv = "<C-W><CR><C-W>H<C-W>b<C-W>J"
 }
 
-
 -- PLUGIN indentLine
--- IndentLinesToggle
 vim.g.indentLine_fileType = {"python"}
-
 
 -- PLUGIN tagbar
 vim.keymap.set("n", "<leader>tb", ":Tagbar<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>tt", ":TagbarCurrentTag f<CR>", { noremap = true, silent = true })
-
 
 -- PLUGIN airline
 vim.cmd([[ let g:airline_symbols = {} ]])
@@ -171,7 +167,6 @@ vim.g["airline#extensions#tagbar#flags"] = "p"
 -- trailing whitespace
 vim.g["airline#extensions#whitespace#enabled"] = 1
 vim.g["airline#extensions#whitespace#trailing_format"] = "[%s] WS"
-
 
 -- PLUGIN markdown
 vim.g.vim_markdown_preview_browser="firefox"
@@ -186,17 +181,22 @@ vim.api.nvim_set_hl(0, "htmlH1", { cterm = { bold = true }, fg = "lightred", cte
 vim.api.nvim_set_hl(0, "htmlH2", { cterm = { bold = true }, fg = "yellow", ctermfg = "yellow" })
 vim.api.nvim_set_hl(0, "htmlH3", { cterm = { bold = true }, fg = "lightgreen", ctermfg = "lightgreen" })
 
-
 -- PLUGIN gitgutter
 vim.keymap.set("n", "[g", "<Plug>(GitGutterPrevHunk)", { silent = true })
 vim.keymap.set("n", "]g", "<Plug>(GitGutterNextHunk)", { silent = true })
 
-
 -- PLUGIN dockergen
 vim.g.DoxygenToolkit_commentType = "C++"
 
-
 -- PLUGIN defx
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "defx",
+  callback = function()
+    vim.wo.number = false
+    vim.wo.relativenumber = false
+  end,
+})
+
 vim.keymap.set("n", "<leader>tr", ":Defx<CR>", { silent = true })
 vim.keymap.set("n", "<leader>tR", ":Defx `escape(getcwd(), ' :')` -search-recursive=`expand('%:p')`<CR>", { silent = true })
 
@@ -235,6 +235,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end
 })
 
+-- PLUGIN Neogen
+require('nvim-treesitter').setup {
+  -- Directory to install parsers and queries to (prepended to `runtimepath` to have priority)
+  install_dir = vim.fn.stdpath('data') .. '/site'
+}
+-- Requirements: cargo install --locked tree-sitter-cli
+require('nvim-treesitter').install { 'python', 'cpp' }
+require('neogen').setup({})
 
 -- PLUGIN nvim-lspconfig
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -335,15 +343,16 @@ vim.lsp.config('lua_ls', {
 
 vim.lsp.log.set_level(vim.log.levels.INFO)
 
--- pyright: python -m pip install pyright
--- bashls: npm i -g bash-language-server
--- lua_ls: https://github.com/LuaLS/lua-language-server/releases
--- ts_ls: npm install -g typescript typescript-language-server
--- cssls: npm i -g vscode-langservers-extracted
--- cssmodules_ls: npm install -g cssmodules-language-server
--- dockerls: npm install -g dockerfile-language-server-nodejs
--- neocmake: cargo install neocmakelsp
--- buf_ls(protobuf): npm install @bufbuild/buf
+-- Requirements:
+--   pyright: python -m pip install pyright
+--   bashls: npm i -g bash-language-server
+--   lua_ls: https://github.com/LuaLS/lua-language-server/releases
+--   ts_ls: npm install -g typescript typescript-language-server
+--   cssls: npm i -g vscode-langservers-extracted
+--   cssmodules_ls: npm install -g cssmodules-language-server
+--   dockerls: npm install -g dockerfile-language-server-nodejs
+--   neocmake: cargo install neocmakelsp
+--   buf_ls(protobuf): npm install @bufbuild/buf
 vim.lsp.enable({"clangd", "pyright", "bashls", "lua_ls", "dockerls", "neocmake", "ts_ls", "cssls", "cssmodules_ls", "buf_ls"})
 
 -------------------------------------------------------------------
