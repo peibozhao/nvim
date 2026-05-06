@@ -356,5 +356,10 @@ vim.lsp.log.set_level(vim.log.levels.INFO)
 vim.lsp.enable({"clangd", "pyright", "bashls", "lua_ls", "dockerls", "neocmake", "ts_ls", "cssls", "cssmodules_ls", "buf_ls"})
 
 -------------------------------------------------------------------
-vim.cmd("source " .. vim.fn.stdpath("config") .. "/fixup.vim")
+-- vim.cmd("source " .. vim.fn.stdpath("config") .. "/fixup.vim")
+
+local custom_init = vim.fn.stdpath("config") .. "/custom/init.lua"
+if vim.fn.filereadable(custom_init) == 1 then
+  dofile(custom_init)
+end
 
