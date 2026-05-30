@@ -280,6 +280,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 --   end
 -- end, { expr = true, silent = true })
 
+-- For clangd. Enable overload method notify
+vim.lsp.config('clangd', {
+  cmd = {'clangd', '--completion-style=detailed'}
+})
 
 -- For vim script, copy from nvim-lspconfig suggestion
 vim.lsp.config('lua_ls', {
