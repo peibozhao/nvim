@@ -351,12 +351,12 @@ vim.lsp.log.set_level(vim.log.levels.INFO)
 --   pyright: python -m pip install pyright
 --   bashls: npm i -g bash-language-server
 --   lua_ls: https://github.com/LuaLS/lua-language-server/releases
---   ts_ls: npm install -g typescript typescript-language-server
+--   ts_ls: npm i -g typescript typescript-language-server
 --   cssls: npm i -g vscode-langservers-extracted
---   cssmodules_ls: npm install -g cssmodules-language-server
---   dockerls: npm install -g dockerfile-language-server-nodejs
+--   cssmodules_ls: npm i -g cssmodules-language-server
+--   dockerls: npm i -g dockerfile-language-server-nodejs
 --   neocmake: cargo install neocmakelsp
---   buf_ls(protobuf): npm install @bufbuild/buf
+--   buf_ls(protobuf): npm i -g @bufbuild/buf
 vim.lsp.enable({"clangd", "pyright", "bashls", "lua_ls", "dockerls", "neocmake", "ts_ls", "cssls", "cssmodules_ls", "buf_ls"})
 
 -------------------------------------------------------------------
