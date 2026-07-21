@@ -198,7 +198,11 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.keymap.set("n", "<leader>tr", ":Defx<CR>", { silent = true })
-vim.keymap.set("n", "<leader>tR", ":Defx `escape(getcwd(), ' :')` -search-recursive=`expand('%:p')`<CR>", { silent = true })
+vim.keymap.set("n", "<leader>tR", function()
+  -- optimization
+  vim.cmd("Defx -close")
+  vim.cmd("Defx `escape(getcwd(), ' :')` -search-recursive=`expand('%:p')`")
+end, { silent = true })
 
 vim.fn["defx#custom#option"]("_", {
   columns = "indent:icon:filename",
